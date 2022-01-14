@@ -20,7 +20,7 @@ _🔮 塔罗牌 🔮_
   </a>
   
   <a href="">
-    <img src="https://img.shields.io/badge/release-v0.1.0-orange">
+    <img src="https://img.shields.io/badge/release-v0.1.1-orange">
   </a>
   
 </p>
@@ -29,7 +29,7 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-v0.1.0
+v0.1.1
 
 ⚠ 目前不确定是否适配nonebot2-2.0.0beta.1
 
