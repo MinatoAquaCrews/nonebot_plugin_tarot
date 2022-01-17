@@ -7,7 +7,7 @@ from nonebot.log import logger
 from nonebot import on_command
 from nonebot.typing import T_State
 from nonebot.params import State
-from nonebot.adapters.onebot.v11 import Bot, Event, PrivateMessageEvent, GroupMessageEvent
+from nonebot.adapters.onebot.v11 import Bot, Event, PrivateMessageEvent, GroupMessageEvent, MessageSegment
 
 CHAIN_REPLY = nonebot.get_driver().config.chain_reply
 _TAROT_PATH = nonebot.get_driver().config.tarot_path
@@ -59,7 +59,7 @@ async def _(bot: Bot, event: Event, state: T_State = State()):
         if isinstance(event, GroupMessageEvent):
             if not CHAIN_REPLY:           
                 text = meaning_key + "，" + meaning_value + "\n" + card_key + "，" + card_value + "\n"
-                msg = massage_reply(image_file, text)
+                msg = MessageSegment.text(text) + MessageSegment.image(image_file)
                 if count < 3:
                     await bot.send(event=event, message=msg, at_sender=True)
                 else:
@@ -87,24 +87,6 @@ async def chain_reply(bot, chain, msg, image):
     }
     chain.append(data)
     return chain
-
-def massage_reply(image_file, text):
-    msg = [
-        {
-            "type": "text",
-            "data": {
-                "text": text
-            }
-        }, 
-        {
-            "type": "image",
-            "data": {
-                "file": f"{image_file}",
-            }
-        }
-    ]
-
-    return msg
 
 cards = {
     "圣杯1": "家庭生活之幸福，别的牌可给予其更多内涵，如宾客来访、宴席、吵架",
