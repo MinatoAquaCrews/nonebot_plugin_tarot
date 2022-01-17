@@ -16,11 +16,11 @@ _🔮 塔罗牌 🔮_
   </a>
   
   <a href="https://github.com/nonebot/nonebot2">
-    <img src="https://img.shields.io/badge/nonebot2-2.0.0alpha.16-green">
+    <img src="https://img.shields.io/badge/nonebot2-2.0.0beta.1-green">
   </a>
   
   <a href="">
-    <img src="https://img.shields.io/badge/release-v0.1.1-orange">
+    <img src="https://img.shields.io/badge/release-v0.1.2-orange">
   </a>
   
 </p>
@@ -29,9 +29,9 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-v0.1.1
+v0.1.2
 
-⚠ 目前不确定是否适配nonebot2-2.0.0beta.1
+⚠ 目前不确定是否适配nonebot2-2.0.0beta.1，虽然代码改了但是……
 
 ## 安装
 
