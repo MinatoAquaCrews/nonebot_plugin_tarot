@@ -20,7 +20,7 @@ _🔮 塔罗牌 🔮_
   </a>
   
   <a href="">
-    <img src="https://img.shields.io/badge/release-v0.1.3-orange">
+    <img src="https://img.shields.io/badge/release-v0.2.0-orange">
   </a>
   
 </p>
@@ -29,7 +29,7 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-v0.1.3
+v0.2.0
 
 ⚠ 适配nonebot2-2.0.0beta.1；适配nonebot-2.0.0alpha.16版本参见[alpha.16分支](https://github.com/KafCoppelia/nonebot_plugin_tarot/tree/alpha.16)
 
