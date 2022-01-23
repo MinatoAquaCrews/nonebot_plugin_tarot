@@ -31,7 +31,7 @@ _🔮 塔罗牌 🔮_
 
 v0.1.3
 
-⚠ 适配nonebot2-2.0.0beta.1
+⚠ 适配nonebot2-2.0.0beta.1；适配nonebot-2.0.0alpha.16版本参见[alpha.16分支](https://github.com/KafCoppelia/nonebot_plugin_tarot/tree/alpha.16)
 
 ## 安装
 
