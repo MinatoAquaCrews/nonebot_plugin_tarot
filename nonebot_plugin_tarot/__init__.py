@@ -3,9 +3,10 @@ import random
 import nonebot
 import os
 from pathlib import Path
-from nonebot import on_command
+from nonebot.params import State
+from nonebot.plugin import on_command
 from nonebot.typing import T_State
-from nonebot.adapters.cqhttp import Bot, Event, PrivateMessageEvent, GroupMessageEvent, MessageSegment
+from nonebot.adapters.onebot.v11 import Bot, Event, PrivateMessageEvent, GroupMessageEvent, MessageSegment
 
 CHAIN_REPLY = nonebot.get_driver().config.chain_reply
 _TAROT_PATH = nonebot.get_driver().config.tarot_path
@@ -16,7 +17,7 @@ TAROT_PATH = os.path.join(os.path.dirname(__file__), "resource") + '/' if not _T
 tarot = on_command("塔罗牌", aliases={"占卜"}, priority=5, block=True)
 
 @tarot.handle()
-async def _(bot: Bot, event: Event, state: T_State):
+async def _(bot: Bot, event: Event, state: T_State=State()):
     await tarot.send("请稍等，正在洗牌中")
     indices = random.sample(range(1, 78), 4)
     card_keys = list(cards.keys())

@@ -16,7 +16,7 @@ _🔮 塔罗牌 🔮_
   </a>
   
   <a href="https://github.com/nonebot/nonebot2">
-    <img src="https://img.shields.io/badge/nonebot2-2.0.0alpha.16-green">
+    <img src="https://img.shields.io/badge/nonebot2-2.0.0beta.1-green">
   </a>
   
   <a href="">
@@ -31,7 +31,7 @@ _🔮 塔罗牌 🔮_
 
 v0.1.3
 
-⚠ 适配nonebot2-2.0.0alpha.16，适配beta.1版本将会放在dev分支。
+⚠ 适配nonebot2-2.0.0beta.1
 
 ## 安装
 
