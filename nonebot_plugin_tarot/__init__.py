@@ -4,7 +4,7 @@ import nonebot
 import os
 from pathlib import Path
 from nonebot.params import State
-from nonebot.plugin import on_command
+from nonebot import on_command
 from nonebot.typing import T_State
 from nonebot.adapters.onebot.v11 import Bot, Event, PrivateMessageEvent, GroupMessageEvent, MessageSegment
 
