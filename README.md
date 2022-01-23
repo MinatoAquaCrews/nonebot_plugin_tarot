@@ -16,11 +16,11 @@ _🔮 塔罗牌 🔮_
   </a>
   
   <a href="https://github.com/nonebot/nonebot2">
-    <img src="https://img.shields.io/badge/nonebot2-2.0.0beta.1-green">
+    <img src="https://img.shields.io/badge/nonebot2-2.0.0alpha.16-green">
   </a>
   
   <a href="">
-    <img src="https://img.shields.io/badge/release-v0.1.2-orange">
+    <img src="https://img.shields.io/badge/release-v0.1.3-orange">
   </a>
   
 </p>
@@ -29,13 +29,13 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-v0.1.2
+v0.1.3
 
-⚠ 目前不确定是否适配nonebot2-2.0.0beta.1，虽然代码改了但是……
+⚠ 适配nonebot2-2.0.0alpha.16，适配beta.1版本将会放在dev分支。
 
 ## 安装
 
-1. 通过`pip`或`poetry`安装；
+1. 通过`pip`或`nb`安装；
 
 2. 塔罗牌图片资源默认位于`./resource`下，可通过设置`env`下`TAROT_PATH`更改；
 
@@ -45,11 +45,13 @@ v0.1.2
 
 1. 塔罗牌！占卜今日运势；
 
-2. *可选：`env`内可设置群聊转发模式：
+2. `env`内可设置群聊转发模式：
 
 ```python
 CHAIN_REPLY=false   # 是否启用转发模式
 ```
+
+3. 支持群聊/私聊占卜；
 
 ## 命令
 
