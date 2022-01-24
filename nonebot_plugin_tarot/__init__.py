@@ -1,7 +1,8 @@
 from random import shuffle, randint
 import random
-import nonebot
 import os
+import nonebot
+from typing import List
 from pathlib import Path
 from nonebot import on_command
 from nonebot.typing import T_State
@@ -10,8 +11,9 @@ from nonebot.adapters.cqhttp import Bot, Event, PrivateMessageEvent, GroupMessag
 CHAIN_REPLY = nonebot.get_driver().config.chain_reply
 _TAROT_PATH = nonebot.get_driver().config.tarot_path
 _NICKNAME = nonebot.get_driver().config.nickname
-NICKNAME = list(_NICKNAME)[0]
-TAROT_PATH = os.path.join(os.path.dirname(__file__), "resource") + '/' if not _TAROT_PATH else str(Path(_TAROT_PATH).absolute()) + '/'
+NICKNAME = "awesome_bot" if not _NICKNAME else list(_NICKNAME)[0]
+DEFAULT_PATH = os.path.join(__file__, "resource")
+TAROT_PATH = DEFAULT_PATH if not _TAROT_PATH else _TAROT_PATH
 
 tarot = on_command("塔罗牌", aliases={"占卜"}, priority=5, block=True)
 
@@ -27,12 +29,12 @@ async def _(bot: Bot, event: Event, state: T_State):
         card_key = card_keys[index - 1]
         meaning_key = list(meanings.keys())[count]
         meaning_value = meanings[meaning_key]
-        image_file = f"file:{TAROT_PATH}{card_key}.jpg"
+        image_file = Path(TAROT_PATH) / (card_key + ".jpg")
 
         # 特殊规则：愚者有两张
         if card_key == "愚者":
             rand = randint(1, 2)
-            image_file = f"file:{TAROT_PATH}{card_key}{rand}.jpg"
+            image_file = Path(TAROT_PATH) / (card_key + str(rand) + ".jpg")
 
         # 特殊规则：小阿卡纳分正位逆位
         if isinstance(cards[card_key], dict):
@@ -47,12 +49,12 @@ async def _(bot: Bot, event: Event, state: T_State):
             card_value = cards[card_key]
 
         if isinstance(event, PrivateMessageEvent):
-            msg = []
-            msg.extend([meaning_key,"，",meaning_value,"\n",card_key,"，",card_value,"\n",f"[CQ:image,file={image_file}]"])
+            text = meaning_key + "，" + meaning_value + "\n" + card_key + "，" + card_value + "\n"
+            msg = MessageSegment.text(text)+ MessageSegment.image(image_file)
             if count < 3:
-                await bot.send_private_msg(user_id=event.user_id, message="".join(msg))
+                await bot.send_private_msg(user_id=event.user_id, message=msg)
             else:
-                await bot.send_private_msg(user_id=event.user_id, message="".join(msg))
+                await bot.send_private_msg(user_id=event.user_id, message=msg)
 
         if isinstance(event, GroupMessageEvent):
             if not CHAIN_REPLY:           
@@ -63,24 +65,20 @@ async def _(bot: Bot, event: Event, state: T_State):
                 else:
                     await tarot.finish(message=msg, at_sender=True)
             else:
-                msg = []
-                msg.extend([meaning_key,"，",meaning_value,"\n",card_key,"，",card_value,"\n"])
+                text = meaning_key + "，" + meaning_value + "\n" + card_key + "，" + card_value + "\n"
+                msg = MessageSegment.text(text) + MessageSegment.image(image_file)
                 if count < 4:
-                    chain = await chain_reply(bot, chain, msg, image_file)
+                    chain = await chain_reply(bot, chain, msg)
             if CHAIN_REPLY and count == 3:
                 await bot.send_group_forward_msg(group_id=event.group_id, messages=chain)
 
-async def chain_reply(bot, chain, msg, image):
-    msg = "".join(msg)
+async def chain_reply(bot: Bot, chain: List, msg: MessageSegment) -> List:
     data = {
         "type": "node",
         "data": {
             "name": f"{NICKNAME}",
             "uin": f"{bot.self_id}",
-            "content": [
-                {"type": "text", "data": {"text": msg}},
-                {"type": "image", "data": {"file": image}},
-            ],
+            "content": msg
         },
     }
     chain.append(data)
