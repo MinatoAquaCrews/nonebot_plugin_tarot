@@ -57,7 +57,7 @@ CHAIN_REPLY=false   # 是否启用转发模式
 
 塔罗牌、占卜
 
-## 本插件改自：
+## 本插件改自
 
 1. [真寻bot插件库-tarot](https://github.com/AkashiCoin/nonebot_plugins_zhenxun_bot)
 2. [HoshinoBot-tarot](https://github.com/haha114514/tarot_hoshino)
