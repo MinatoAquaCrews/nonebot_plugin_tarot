@@ -12,7 +12,7 @@ CHAIN_REPLY = nonebot.get_driver().config.chain_reply
 _TAROT_PATH = nonebot.get_driver().config.tarot_path
 _NICKNAME = nonebot.get_driver().config.nickname
 NICKNAME = "awesome_bot" if not _NICKNAME else list(_NICKNAME)[0]
-DEFAULT_PATH = os.path.join(__file__, "resource")
+DEFAULT_PATH = os.path.join(os.path.dirname(__file__), "resource")
 TAROT_PATH = DEFAULT_PATH if not _TAROT_PATH else _TAROT_PATH
 
 tarot = on_command("塔罗牌", aliases={"占卜"}, priority=5, block=True)
