@@ -1,23 +1,31 @@
 from random import sample, shuffle
-from os.path import join
-from os import getcwd
+from pathlib import Path 
+import os
+import nonebot
+
+_TAROT_PATH = nonebot.get_driver().config.tarot_path
+DEFAULT_PATH = os.path.join(os.path.dirname(__file__), "resource")
+TAROT_PATH = DEFAULT_PATH if not _TAROT_PATH else _TAROT_PATH
 
 class Cards() :
-    def __init__(self, num:int) :
-        #为了模拟抽牌过程，所以会将卡组打乱，然后从小到大进行抽牌
-        #所以稍微牺牲点性能没问题的对吧！
+    def __init__(self, num: int):
+        '''
+            为了模拟抽牌过程，所以会将卡组打乱，然后从小到大进行抽牌
+            所以稍微牺牲点性能没问题的对吧！
+        '''
         names = list(cards.keys())
         shuffle(names)
-        self.selected = [names[card_id] for card_id in sample(range(0,78),num)]
+        self.selected = [names[card_id] for card_id in sample(range(0,78), num)]
         self.showed = 0
 
-    #揭示牌（玄学当然要有仪式感！）
+    # 揭示牌（玄学当然要有仪式感！）
     def reveal(self):
-        card_name = self.selected[self.showed] #牌名
-        card_meaning = cards[card_name] #含义
-        image_file = join(getcwd(),"src/images/tarot",(card_name+".jpg")) #图片路径
+        card_key = self.selected[self.showed]               # 牌名
+        card_meaning = cards[card_key]                      # 含义
+        image_file = Path(TAROT_PATH) / (card_key + ".jpg") # 图片路径
         self.showed += 1
-        return card_name, card_meaning, image_file
+        return card_key, card_meaning, image_file
+
 
 #不是最终版本。从愚者开始是改过的含义。前边的之后会改。——lolifish
 cards = {
@@ -99,4 +107,11 @@ cards = {
     "太阳": "生命：积极的能量将帮助你获得完成某事的快乐。通过自信，热情和辛劳，能够体验到一种充实与快乐。过上简单的生活，以充分享受自由和启蒙的果实。",
     "审判": "复活：审判是更新，知识和更高思想的象征。根据自己的直觉和智慧做出决定，它们将在未来的日子里带来重大变化。",
     "世界": "达成：世界象征着完成旅程的快乐，也是体验生活其他方面的新开端。坚如磐石，勇敢面对任何局面，不会崩溃。利用知识和经验，通过教育或社会工作向世界回馈一些东西。"
+}
+
+meanings = {
+    "第一张牌": "代表过去，即已经发生的事",
+    "第二张牌": "代表问题导致的局面",
+    "第三张牌": "表示困难可能有的解决方法",
+    "切牌": "表示问卜者的主观想法",
 }
