@@ -15,11 +15,12 @@ divine = on_command("占卜", priority=5, block=True)
 async def _(bot: Bot, event: Event):
     card = Cards(1)
     card_key, card_value, image_file = card.reveal()
-    msg = MessageSegment.text(f"回应是：{card_key}\n「{card_value}」\n") + MessageSegment.image(image_file)
     if isinstance(event, GroupMessageEvent): 
+        msg = MessageSegment.text(f"\n回应是：{card_key}\n「{card_value}」\n") + MessageSegment.image(image_file)
         await tarot.finish(message=msg, at_sender=True)
     else:
-        await tarot.finish(message=msg)
+        msg = MessageSegment.text(f"回应是：{card_key}\n「{card_value}」\n") + MessageSegment.image(image_file)
+        await tarot.finish(message=msg, at_sender=False)
 
 @divine.handle()
 async def _(bot: Bot, event: Event):
