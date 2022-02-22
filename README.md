@@ -16,11 +16,11 @@ _🔮 塔罗牌 🔮_
   </a>
   
   <a href="https://github.com/nonebot/nonebot2">
-    <img src="https://img.shields.io/badge/nonebot2-2.0.0beta.1-green">
+    <img src="https://img.shields.io/badge/nonebot2-2.0.0beta.1+-green">
   </a>
   
   <a href="">
-    <img src="https://img.shields.io/badge/release-v0.2.3-orange">
+    <img src="https://img.shields.io/badge/release-v0.2.4-orange">
   </a>
   
 </p>
@@ -29,15 +29,17 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-v0.2.3
+v0.2.4
 
-⚠ 适配nonebot2-2.0.0beta.1；适配nonebot-2.0.0alpha.16版本参见[alpha.16分支](https://github.com/KafCoppelia/nonebot_plugin_tarot/tree/alpha.16)
+⚠ 适配nonebot2-2.0.0beta.1+；
 
-[更新日志](https://github.com/KafCoppelia/nonebot_plugin_tarot/releases/tag/v0.2.3)
+👉 适配nonebot-2.0.0alpha.16版本参见[alpha.16分支](https://github.com/KafCoppelia/nonebot_plugin_tarot/tree/alpha.16)
+
+[更新日志](https://github.com/KafCoppelia/nonebot_plugin_tarot/releases/tag/v0.2.4)
 
 ## 安装
 
-1. 通过`pip`或`nb`安装，版本请指定`^0.2.3`；
+1. 通过`pip`或`nb`安装，版本请指定`0.2.4`；
 
 2. 塔罗牌图片资源默认位于`./resource`下，设置`env`下`TAROT_PATH`更改资源路径，`CHAIN_REPLY`设置启用转发模式；
 
@@ -49,7 +51,9 @@ v0.2.3
 
 2. 支持群聊/私聊占卜；
 
-3. **新增** 单张塔罗牌占卜；
+3. 支持单张/全套塔罗牌占卜；
+
+4. **新增** 插件帮助文案；
 
 ## 命令
 

@@ -1,15 +1,35 @@
 import nonebot
 from typing import List
 from nonebot import on_command
-from nonebot.adapters.onebot.v11 import Bot, Event, PrivateMessageEvent, GroupMessageEvent, MessageSegment
-from .data_source import Cards, meanings
+from nonebot.adapters.onebot.v11 import Bot, GROUP, Event, PrivateMessageEvent, GroupMessageEvent, MessageSegment
+from .data_source import Cards, meanings, global_config
 
-CHAIN_REPLY = nonebot.get_driver().config.chain_reply
-_NICKNAME = nonebot.get_driver().config.nickname
-NICKNAME = "awesome_bot" if not _NICKNAME else list(_NICKNAME)[0]
+if not hasattr(global_config, "chain_reply"):
+    CHAIN_REPLY = False
+else:
+    CHAIN_REPLY = nonebot.get_driver().config.chain_reply
 
-tarot = on_command("塔罗牌", priority=5, block=True)
-divine = on_command("占卜", priority=5, block=True)
+if not hasattr(global_config, "nickname"):
+    NICKNAME = "awesome_bot"
+    raise Exception("Bot'd better have a nickname maybe.")
+else:
+    _NICKNAME = nonebot.get_driver().config.nickname
+    NICKNAME = list(_NICKNAME)[0]
+
+# 命令过于简单没写帮助文案
+__tarot_vsrsion__ = "v0.2.4"
+plugin_notes = f'''
+塔罗牌 {__tarot_vsrsion__}
+[塔罗牌] 得到单张塔罗牌回应
+[占卜]  全套占卜'''.strip()
+
+plugin_help = on_command("塔罗牌帮助", permission=GROUP, priority=6, block=True)
+tarot = on_command("塔罗牌", permission=GROUP, priority=6, block=True)
+divine = on_command("占卜", permission=GROUP, priority=6, block=True)
+
+@plugin_help.handle()
+async def show_help(bot: Bot, event: Event):
+    await plugin_help.finish(plugin_notes)
 
 @tarot.handle()
 async def _(bot: Bot, event: Event):
