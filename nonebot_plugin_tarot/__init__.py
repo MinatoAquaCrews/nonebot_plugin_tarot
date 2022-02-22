@@ -16,7 +16,6 @@ else:
     _NICKNAME = nonebot.get_driver().config.nickname
     NICKNAME = list(_NICKNAME)[0]
 
-# 命令过于简单没写帮助文案
 __tarot_vsrsion__ = "v0.2.4"
 plugin_notes = f'''
 塔罗牌 {__tarot_vsrsion__}
