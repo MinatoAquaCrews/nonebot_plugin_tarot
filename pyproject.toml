@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot_plugin_tarot"
-version = "0.1.5"
+version = "0.1.6"
 description = "Tarot divination for everyday!"
 authors = ["KafCoppelia <k740677208@gmail.com>"]
 license = "MIT"
