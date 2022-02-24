@@ -11,12 +11,12 @@ _🔮 塔罗牌 🔮_
 
 <p align="center">
   
-  <a href="https://github.com/KafCoppelia/nonebot_plugin_tarot/blob/main/LICENSE">
+  <a href="https://github.com/KafCoppelia/nonebot_plugin_tarot/blob/beta/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-informational">
   </a>
   
   <a href="https://github.com/nonebot/nonebot2">
-    <img src="https://img.shields.io/badge/nonebot2-2.0.0beta.1+-green">
+    <img src="https://img.shields.io/badge/nonebot2-2.0.0beta.2-green">
   </a>
   
   <a href="">
@@ -31,7 +31,7 @@ _🔮 塔罗牌 🔮_
 
 v0.2.4
 
-⚠ 适配nonebot2-2.0.0beta.1+；
+⚠ 适配nonebot2-2.0.0beta.2；
 
 👉 适配nonebot-2.0.0alpha.16版本参见[alpha.16分支](https://github.com/KafCoppelia/nonebot_plugin_tarot/tree/alpha.16)
 

@@ -7,7 +7,7 @@ global_config = nonebot.get_driver().config
 if not hasattr(global_config, "tarot_path"):
     TAROT_PATH = os.path.join(os.path.dirname(__file__), "resource")
 else:
-    TAROT_PATH = nonebot.get_driver().config.tarot_path
+    TAROT_PATH = global_config.tarot_path
 
 class Cards() :
     def __init__(self, num: int):

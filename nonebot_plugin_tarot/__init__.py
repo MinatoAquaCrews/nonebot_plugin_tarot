@@ -7,13 +7,13 @@ from .data_source import Cards, meanings, global_config
 if not hasattr(global_config, "chain_reply"):
     CHAIN_REPLY = False
 else:
-    CHAIN_REPLY = nonebot.get_driver().config.chain_reply
+    CHAIN_REPLY = global_config.chain_reply
 
 if not hasattr(global_config, "nickname"):
     NICKNAME = "awesome_bot"
     raise Exception("Bot'd better have a nickname maybe.")
 else:
-    _NICKNAME = nonebot.get_driver().config.nickname
+    _NICKNAME = global_config.nickname
     NICKNAME = list(_NICKNAME)[0]
 
 __tarot_vsrsion__ = "v0.2.4"
