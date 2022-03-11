@@ -11,7 +11,7 @@ _🔮 塔罗牌 🔮_
 
 <p align="center">
   
-  <a href="https://github.com/KafCoppelia/nonebot_plugin_tarot/blob/beta/LICENSE">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/blob/beta/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-informational">
   </a>
   
@@ -20,7 +20,7 @@ _🔮 塔罗牌 🔮_
   </a>
   
   <a href="">
-    <img src="https://img.shields.io/badge/release-v0.2.4-orange">
+    <img src="https://img.shields.io/badge/release-v0.2.5-orange">
   </a>
   
 </p>
@@ -29,23 +29,21 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-v0.2.4
+v0.2.5
 
 ⚠ 适配nonebot2-2.0.0beta.2；
 
-👉 适配nonebot-2.0.0alpha.16版本参见[alpha.16分支](https://github.com/KafCoppelia/nonebot_plugin_tarot/tree/alpha.16)
+👉 适配nonebot-2.0.0alpha版本参见[alpha分支](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/tree/alpha)
 
-[更新日志](https://github.com/KafCoppelia/nonebot_plugin_tarot/releases/tag/v0.2.4)
+[更新日志](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.2.5)
 
 ## 安装
 
-1. 通过`pip`或`nb`安装，版本请指定`0.2.4`；
+1. 通过`pip`或`nb`安装，版本请指定`0.2.5`；
 
-2. 塔罗牌图片资源默认位于`./resource`下，设置`env`下`TAROT_PATH`更改资源路径，`CHAIN_REPLY`设置启用转发模式；
+2. 塔罗牌图片资源默认位于`./resource`下，设置`env`下`TAROT_PATH`更改资源路径，`CHAIN_REPLY`设置群聊启用转发模式；
 
-3. 在`.env`文件中加入`NICKNAME=["my_bot_name"]`；
-
-4. 占卜一下你的今日运势！🥳
+3. 占卜一下你的今日运势！🥳
 
 ## 功能
 
@@ -55,15 +53,11 @@ v0.2.4
 
 3. 支持单张/全套塔罗牌占卜；
 
-4. **新增** 插件帮助文案；
-
 ## 命令
 
-在群聊中使用：
+1. 占卜：占卜4张塔罗牌；
 
-1. `/占卜`：占卜4张塔罗牌；
-
-2. `/塔罗牌`：得到单张塔罗牌回应；
+2. 塔罗牌：得到单张塔罗牌回应；
 
 ## 本插件改自
 
