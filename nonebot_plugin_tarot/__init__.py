@@ -1,87 +1,65 @@
-from nonebot import on_command
-from nonebot.adapters.onebot.v11 import Bot, GROUP, PRIVATE, Event, PrivateMessageEvent, GroupMessageEvent, MessageSegment
-from typing import List
-from .data_source import Cards, meanings, global_config
+from nonebot import on_command, on_regex
+from nonebot.permission import SUPERUSER
+from nonebot.adapters.onebot.v11.event import MessageEvent
+from nonebot.adapters.onebot.v11 import Bot, MessageSegment, PrivateMessageEvent, GroupMessageEvent
+from typing import List, Dict, Union
+from .data_source import tarot_manager
+from .config import tarot_config
 
-if not hasattr(global_config, "chain_reply"):
-    CHAIN_REPLY = False
-else:
-    CHAIN_REPLY = global_config.chain_reply
+__tarot_version__ = "v0.3.0a1"
+__tarot_notes__ = f'''
+塔罗牌 {__tarot_version__}
+[占卜] 随机选取牌阵进行占卜'''.strip()
 
-if not hasattr(global_config, "nickname"):
-    NICKNAME = "Bot"
-    raise Exception("Bot'd better have a nickname maybe.")
-else:
-    _NICKNAME = global_config.nickname
-    if len(list(_NICKNAME)) > 0:
-        NICKNAME = list(_NICKNAME)[0]
-    else:
-        NICKNAME = "Bot"
-
-__tarot_vsrsion__ = "v0.2.5"
-plugin_notes = f'''
-塔罗牌 {__tarot_vsrsion__}
-[塔罗牌] 得到单张塔罗牌回应
-[占卜]  全套占卜'''.strip()
-
-plugin_help = on_command("塔罗牌帮助", permission=GROUP|PRIVATE, priority=6, block=True)
-tarot = on_command("塔罗牌", permission=GROUP|PRIVATE, priority=6, block=True)
-divine = on_command("占卜", permission=GROUP|PRIVATE, priority=6, block=True)
-
-@plugin_help.handle()
-async def show_help(bot: Bot, event: Event):
-    await plugin_help.finish(plugin_notes)
+tarot = on_command(cmd="占卜", aliases={"塔罗牌"}, priority=7)
+chain_reply_switch = on_regex(pattern=r"(开启|关闭)群聊转发", permission=SUPERUSER, priority=7, block=True)
 
 @tarot.handle()
-async def _(bot: Bot, event: Event):
-    card = Cards(1)
-    card_key, card_value, image_file = card.reveal()
-    if isinstance(event, GroupMessageEvent): 
-        msg = MessageSegment.text(f"\n回应是：{card_key}\n「{card_value}」\n") + MessageSegment.image(image_file)
-        await tarot.finish(message=msg, at_sender=True)
-    else:
-        msg = MessageSegment.text(f"回应是：{card_key}\n「{card_value}」\n") + MessageSegment.image(image_file)
-        await tarot.finish(message=msg, at_sender=False)
-
-@divine.handle()
-async def _(bot: Bot, event: Event):
-    await divine.send("请稍等，正在洗牌中")
-    cards = Cards(4)
+async def _(bot: Bot, event: MessageEvent):
+    # 发送牌阵
+    msg, cards_num = await tarot_manager.divine()
+    await tarot.send(msg)
+    
     chain = []
-    for count in range(4):
-        card_key, card_value, image_file = cards.reveal()
-        meaning_key = list(meanings.keys())[count]
-        meaning_value = meanings[meaning_key]
+    for i in range(cards_num):
+        reveal_msg = await tarot_manager.reveal(i)
 
         if isinstance(event, PrivateMessageEvent):
-            text = meaning_key + "，" + meaning_value + "\n" + card_key + "，" + card_value + "\n"
-            msg = MessageSegment.text(text)+ MessageSegment.image(image_file)
-            if count < 3:
-                await bot.send_private_msg(user_id=event.user_id, message=msg)
+            if i < cards_num:
+                await tarot.send(reveal_msg)
             else:
-                await bot.send_private_msg(user_id=event.user_id, message=msg)
+                await tarot.finish(reveal_msg)
 
         if isinstance(event, GroupMessageEvent):
-            if not CHAIN_REPLY:           
-                text = meaning_key + "，" + meaning_value + "\n" + card_key + "，" + card_value + "\n"
-                msg = MessageSegment.text(text) + MessageSegment.image(image_file)
-                if count < 3:
-                    await bot.send(event=event, message=msg, at_sender=True)
+            if not tarot_manager.is_chain_reply:
+                # 开启群聊转发模式
+                if i < cards_num - 1:
+                    await tarot.send(reveal_msg)
                 else:
-                    await divine.finish(message=msg, at_sender=True)
+                    await tarot.finish(reveal_msg)
             else:
-                text = meaning_key + "，" + meaning_value + "\n" + card_key + "，" + card_value + "\n"
-                msg = MessageSegment.text(text) + MessageSegment.image(image_file)
-                if count < 4:
-                    chain = await chain_reply(bot, chain, msg)
-            if CHAIN_REPLY and count == 3:
-                await bot.send_group_forward_msg(group_id=event.group_id, messages=chain)
+                chain = await chain_reply(bot, chain, reveal_msg)
+            
+    if tarot_manager.is_chain_reply:
+        await bot.send_group_forward_msg(group_id=event.group_id, messages=chain)
 
-async def chain_reply(bot: Bot, chain: List, msg: MessageSegment) -> List:
+@chain_reply_switch.handle()
+async def _(event: GroupMessageEvent):
+    args = event.get_plaintext()
+    if args[:-2] == "开启":
+        tarot_manager.switch_chain_reply(True)
+        msg = "占卜群聊转发模式已开启~"
+    elif args[:-2] == "关闭":
+        tarot_manager.switch_chain_reply(False)
+        msg = "占卜群聊转发模式已关闭~"
+    
+    await chain_reply_switch.finish(msg)
+
+async def chain_reply(bot: Bot, chain: List[Dict[str, Union[str, Dict[str, Union[str, MessageSegment]]]]], msg: MessageSegment) -> List[Dict[str, Union[str, Dict[str, Union[str, MessageSegment]]]]]:
     data = {
         "type": "node",
         "data": {
-            "name": f"{NICKNAME}",
+            "name": f"{list(tarot_config.nickname)[0]}",
             "uin": f"{bot.self_id}",
             "content": msg
         },

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "nonebot_plugin_tarot"
-version = "0.2.5"
-description = "Tarot divination for everyday!"
+version = "0.3.0a1"
+description = "Tarot divination!"
 authors = ["KafCoppelia <k740677208@gmail.com>"]
 license = "MIT"
 readme = "README.md"
@@ -10,6 +10,8 @@ readme = "README.md"
 python = "^3.7.3"
 nonebot2 = "^2.0.0-beta.2"
 nonebot-adapter-onebot = "^2.0.0-beta.1"
+pillow = "^9.0.0"
+aiocache = "^0.11.1"
 
 [tool.poetry.dev-dependencies]
 
