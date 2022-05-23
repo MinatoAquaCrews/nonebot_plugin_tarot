@@ -77,14 +77,14 @@
             "pic": "02-女祭司.png"
         },
         "3": {
-            "name_cn": "皇后",
+            "name_cn": "女皇",
             "name_en": "The Empress",
             "type": "MajorArcana",
             "meaning": {
                 "up": "母性、女性特质、生命力、接纳",
                 "down": "生育问题、不安全感、敏感、困扰于细枝末节"
             },
-            "pic": "03-皇后.png"
+            "pic": "03-女皇.png"
         },
         "4": {
             "name_cn": "皇帝",

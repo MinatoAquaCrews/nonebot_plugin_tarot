@@ -54,6 +54,8 @@ v0.3.0a1
 
 3. 启动时，插件会自动下载repo中最新的`resource/tarot.json`文件至用户指定目录。
 
+4. 
+
 ## 资源说明
 
 1. 韦特塔罗(Waite Tarot)包括22张大阿卡纳(Major Arcana)牌与权杖(Wands)、星币(Pentacles)、圣杯(Cups)、宝剑(Swords)各系14张的小阿卡纳(Minor Arcana)共56张牌组成，其中国王、皇后、骑士、侍从也称为宫廷牌(Court Cards)。
@@ -74,7 +76,7 @@ v0.3.0a1
 
 4. 牌面资源：[阿里云盘](https://www.aliyundrive.com/s/cvbxLQQ9wD5/folder/61000cc1c78a1da52ef548beb9591a01bdb09a79)。
 
-    ⚠ 文件夹名称、大阿卡纳恶魔牌(The Devil)名称、权杖4名称、王后牌名称有修改。
+    ⚠ 文件夹名称、大阿卡纳恶魔牌(The Devil)名称、权杖4名称、女皇牌(The Empress)名称有修改。
 
 5. 关于切牌。单独一张切牌或提示牌在占卜中没有意义，原`v0.2.5`中`塔罗牌`命令修改。
 
