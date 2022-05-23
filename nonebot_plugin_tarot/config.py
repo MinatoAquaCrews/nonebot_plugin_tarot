@@ -1,11 +1,10 @@
+import nonebot
+from nonebot import logger
 from pydantic import BaseModel, Extra
 from pathlib import Path 
 from typing import Set
 import httpx
 from aiocache import cached
-import aiofiles
-import nonebot
-from nonebot import logger
 try:
     import ujson as json
 except ModuleNotFoundError:
@@ -34,7 +33,7 @@ async def download_url(url: str) -> httpx.Response:
                     continue
                 return response
             except Exception as e:
-                logger.warning(f"Error occured when downloading tarot.json, {i+1}/3: {e}")
+                logger.warning(f"Error occured when downloading {url}, {i+1}/3: {e}")
     
     raise DownloadError
 
@@ -60,21 +59,10 @@ async def tarot_version_check() -> None:
 @cached(ttl=180)
 async def get_tarot(_type: str, _name_cn: str) -> bytes:
     '''
-        Download tarot image
+        Downloads tarot image and stores cache temporarily
     '''
-    img_path = tarot_config.tarot_path / _type / _name_cn
-
-    if not img_path.parent.exists():
-        img_path.parent.mkdir(parents=True, exist_ok=True)
-        
+    logger.info(f"Downloading tarot image: {_type}/{_name_cn}")
+    
     url = f"https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/beta/nonebot_plugin_tarot/resource/{_type}/{_name_cn}"
     data = await download_url(url)
-    if data.content():
-        async with aiofiles.open(img_path, "w") as f:
-            await f.write(data.content())
-            
-    if not img_path.exists():
-        raise ResourceError
-    
-    async with aiofiles.open(img_path, "r") as f:
-        return await f.read()
+    return data.content
