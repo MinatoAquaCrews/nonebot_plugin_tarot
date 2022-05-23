@@ -4,7 +4,7 @@ from typing import List, Dict, Union, Tuple
 from PIL import Image
 from io import BytesIO
 from nonebot.adapters.onebot.v11 import MessageSegment
-from .config import tarot_config
+from .config import tarot_config, get_tarot
 try:
     import ujson as json
 except ModuleNotFoundError:
@@ -14,8 +14,9 @@ class Tarot:
     def __init__(self):
         self.tarot_json: Path = tarot_config.tarot_path / "tarot.json"
         with open(self.tarot_json, 'r', encoding='utf-8') as f:
-            _formations = json.load(f).get("formation")
-            _cards = json.load(f).get("cards")
+            content = json.load(f)
+            _formations = content.get("formation")
+            _cards = content.get("cards")
             
         self._formations: Dict[str, Dict[str, Union[int, bool, List[List[str]]]]] = _formations
         self._cards: Dict[str, Dict[str, Union[str, Dict[str, str]]]] = _cards
@@ -49,10 +50,14 @@ class Tarot:
         else:
             msg_header = MessageSegment.text(f"第{cards_index+1}张牌，代表{self.represent[cards_index]}\n")
         
-        card = self._cards.get(self.devined[cards_index])
-        name_cn = card.get("name_cn")
-        img_path = Path(self.tarot_json / card.get("type") / card.get("pic"))
-        img = Image.open(img_path)
+        card: Dict[str, Dict[str, Union[str, Dict[str, str]]]] = self._cards.get(self.devined[cards_index])
+        name_cn: str = card.get("name_cn")
+        img_path: Path = tarot_config.tarot_path / card.get("type") / card.get("pic")
+        if not img_path.exists():
+            data = await get_tarot(card.get("type"), card.get("pic"))
+            img = Image.open(BytesIO(data))
+        else:
+            img = Image.open(img_path)
         
         if random.random() < 0.5:
             # 正位

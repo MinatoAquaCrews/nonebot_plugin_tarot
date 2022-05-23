@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Set
 import httpx
 from aiocache import cached
+import aiofiles
 import nonebot
 from nonebot import logger
 try:
@@ -19,6 +20,9 @@ driver = nonebot.get_driver()
 tarot_config: PluginConfig = PluginConfig.parse_obj(driver.config.dict())
 
 class DownloadError(Exception):
+    pass
+
+class ResourceError(Exception):
     pass
 
 async def download_url(url: str) -> httpx.Response:
@@ -40,25 +44,37 @@ async def tarot_version_check() -> None:
         Get the latest version of tarot.json
     '''
     if not tarot_config.tarot_path.exists():
-        tarot_config.tarot_path.parent.mkdir(parents=True, exist_ok=True)
+        tarot_config.tarot_path.mkdir(parents=True, exist_ok=True)
         
-    url = "https://cdn.jsdelivr.net/gh/MinatoAquaCrews/nonebot_plugin_tarot@beta/resource/tarot.json"
+    url = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/beta/nonebot_plugin_tarot/resource/tarot.json"
     response = await download_url(url)
     docs = response.json()
     version = docs.get("version")
+    
+    json_path = tarot_config.tarot_path / "tarot.json"
 
-    with tarot_config.tarot_path.open("w", encoding="utf-8") as f:
+    with json_path.open("w", encoding="utf-8") as f:
         json.dump(docs, f, ensure_ascii=False, indent=4)
         logger.info(f"Get the latest tarot docs in repo, version: {version}")
 
 @cached(ttl=180)
 async def get_tarot(_type: str, _name_cn: str) -> bytes:
     '''
-        Download tarot image if TAROT_LOCAL is disable
+        Download tarot image
     '''
-    if not tarot_config.tarot_path.exists():
-        tarot_config.tarot_path.parent.mkdir(parents=True, exist_ok=True)
+    img_path = tarot_config.tarot_path / _type / _name_cn
+
+    if not img_path.parent.exists():
+        img_path.parent.mkdir(parents=True, exist_ok=True)
         
-    url = f"https://cdn.jsdelivr.net/gh/MinatoAquaCrews/nonebot_plugin_tarot@beta/resource/{_type}/{_name_cn}"
+    url = f"https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/beta/nonebot_plugin_tarot/resource/{_type}/{_name_cn}"
     data = await download_url(url)
-    return data.content()
+    if data.content():
+        async with aiofiles.open(img_path, "w") as f:
+            await f.write(data.content())
+            
+    if not img_path.exists():
+        raise ResourceError
+    
+    async with aiofiles.open(img_path, "r") as f:
+        return await f.read()
