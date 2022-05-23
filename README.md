@@ -52,9 +52,7 @@ v0.3.0a1
     CHAIN_REPLY=false
     ```
 
-3. 启动时，插件会自动下载repo中最新的`resource/tarot.json`文件至用户指定目录。
-
-4. 
+3. 启动时，插件会自动下载repo中最新的`resource/tarot.json`文件至用户指定目录，后续塔罗牌牌阵及解读的更新可能不一定随版本更新。
 
 ## 资源说明
 
