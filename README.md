@@ -36,10 +36,7 @@ v0.3.0
 
 ⚠ 适配nonebot2-2.0.0beta.2+
 
-<details>
-  <summary>更新日志</summary>
-  👉 [Here](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.0)
-</details>
+[更新日志](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.0)
 
 ## 安装
 
