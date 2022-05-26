@@ -51,11 +51,16 @@ class Tarot:
             cards_index: 0 to cards_num-1
         '''
         if self.is_cut and cards_index == self.cards_num - 1:
-            msg_header = MessageSegment.text(f"切牌，代表{self.represent[cards_index]}\n")
+            msg_header = MessageSegment.text(f"切牌「{self.represent[cards_index]}」\n")
         else:
-            msg_header = MessageSegment.text(f"第{cards_index+1}张牌，代表{self.represent[cards_index]}\n")
+            msg_header = MessageSegment.text(f"第{cards_index+1}张牌「{self.represent[cards_index]}」\n")
         
-        card: Dict[str, Dict[str, Union[str, Dict[str, str]]]] = self._cards.get(self.devined[cards_index])
+        msg_body: MessageSegment = await self.multi_divine(cards_index)
+        
+        return msg_header + msg_body
+        
+    async def multi_divine(self, index: int) -> MessageSegment:
+        card: Dict[str, Dict[str, Union[str, Dict[str, str]]]] = self._cards.get(self.devined[index])
         name_cn: str = card.get("name_cn")
         img_path: Path = tarot_config.tarot_path / card.get("type") / card.get("pic")
         if not img_path.exists():
@@ -67,16 +72,27 @@ class Tarot:
         if random.random() < 0.5:
             # 正位
             meaning = card.get("meaning").get("up")
-            msg = MessageSegment.text(f"{name_cn}正位，代表{meaning}\n")  
+            msg = MessageSegment.text(f"「{name_cn}正位」「{meaning}」\n")  
         else:
             meaning = card.get("meaning").get("down")
-            msg = MessageSegment.text(f"{name_cn}逆位，代表{meaning}\n")
+            msg = MessageSegment.text(f"「{name_cn}逆位」「{meaning}」\n")
             img = img.rotate(180)
         
         buf = BytesIO()
         img.save(buf, format='png')
         
-        return msg_header + msg + MessageSegment.image(buf)
+        return msg + MessageSegment.image(buf)
+    
+    async def single_divine(self) -> MessageSegment:
+        if not self._init_json_ok:
+            self.init_json()
+              
+        self.devined = random.choice(list(self._cards))
+        
+        msg = MessageSegment.text("回应是")
+        body: MessageSegment = await self.multi_divine(0)
+        
+        return msg + body
     
     def switch_chain_reply(self, new_state: bool) -> None:
         '''

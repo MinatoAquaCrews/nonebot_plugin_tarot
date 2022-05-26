@@ -16,7 +16,7 @@ _🔮 塔罗牌 🔮_
     <img src="https://img.shields.io/badge/nonebot2-2.0.0beta.2+-green">
   </a>
   
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.0">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.1">
     <img src="https://img.shields.io/github/v/release/MinatoAquaCrews/nonebot_plugin_tarot?color=orange">
   </a>
 
@@ -32,11 +32,11 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-v0.3.0
+v0.3.1
 
 ⚠ 适配nonebot2-2.0.0beta.2+
 
-[更新日志](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.0)
+[更新日志](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.1)
 
 ## 安装
 
@@ -47,7 +47,7 @@ v0.3.0
 2. 塔罗牌图片资源默认位于`./resource`下，设置`env`下`TAROT_PATH`更改资源路径，`CHAIN_REPLY`设置全局启用群聊转发模式，可通过命令修改：
 
     ```python
-    TAROT_PATH="./data/tarot_resource"
+    TAROT_PATH="./data/path-to-your-resource"
     CHAIN_REPLY=false
     ```
 
@@ -59,9 +59,11 @@ v0.3.0
 
 ## 命令
 
-1. 占卜：[占卜/塔罗牌]；
+1. 占卜：[占卜]；
 
-2. [超管] 开启/关闭群聊转发模式：[开启|启用|关闭|禁用] 群聊转发，可降低风控风险。
+2. 得到单张塔罗牌回应：[塔罗牌]；[#12](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/issues/12)
+
+3. [超管] 开启/关闭群聊转发模式：[开启|启用|关闭|禁用] 群聊转发，可降低风控风险。
 
 ## 资源说明
 
@@ -84,8 +86,6 @@ v0.3.0
 4. 牌面资源：[阿里云盘](https://www.aliyundrive.com/s/cvbxLQQ9wD5/folder/61000cc1c78a1da52ef548beb9591a01bdb09a79)；
 
     ⚠ 文件夹名称、大阿卡纳恶魔牌(The Devil)名称、权杖4名称、女皇牌(The Empress)名称有修改。
-
-5. 关于切牌。单独一张切牌（或提示牌）在占卜中没有意义，原`v0.2.5`中`塔罗牌`命令与`占卜`合并。
 
 ## 本插件改自
 
