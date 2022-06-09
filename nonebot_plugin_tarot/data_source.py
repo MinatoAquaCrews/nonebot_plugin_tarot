@@ -46,25 +46,31 @@ class Tarot:
         
         return MessageSegment.text(f"启用{formation_name}，正在洗牌中"), self.cards_num
 
-    async def reveal(self, cards_index: int) -> MessageSegment:
+    async def reveal(self, index: int) -> MessageSegment:
         '''
-            cards_index: 0 to cards_num-1
+            index: 0 to cards_num-1
         '''
-        if self.is_cut and cards_index == self.cards_num - 1:
-            msg_header = MessageSegment.text(f"切牌「{self.represent[cards_index]}」\n")
+        if self.is_cut and index == self.cards_num - 1:
+            msg_header = MessageSegment.text(f"切牌「{self.represent[index]}」\n")
         else:
-            msg_header = MessageSegment.text(f"第{cards_index+1}张牌「{self.represent[cards_index]}」\n")
+            msg_header = MessageSegment.text(f"第{index+1}张牌「{self.represent[index]}」\n")
         
-        msg_body: MessageSegment = await self.multi_divine(cards_index)
+        msg_body: MessageSegment = await self.multi_divine(index)
         
         return msg_header + msg_body
         
     async def multi_divine(self, index: int) -> MessageSegment:
+        '''
+            Multi divines, arrcording to index get the meaning and image(up or down)
+        '''
         card: Dict[str, Dict[str, Union[str, Dict[str, str]]]] = self._cards.get(self.devined[index])
         name_cn: str = card.get("name_cn")
         img_path: Path = tarot_config.tarot_path / card.get("type") / card.get("pic")
         if not img_path.exists():
             data = await get_tarot(card.get("type"), card.get("pic"))
+            if data is None:
+                return MessageSegment.text(f"图片下载出错，请重试……")
+            
             img = Image.open(BytesIO(data))
         else:
             img = Image.open(img_path)
@@ -84,6 +90,9 @@ class Tarot:
         return msg + MessageSegment.image(buf)
     
     async def single_divine(self) -> MessageSegment:
+        '''
+            Single divine, get a tarot
+        '''
         if not self._init_json_ok:
             self.init_json()
               

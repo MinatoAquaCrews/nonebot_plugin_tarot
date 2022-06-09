@@ -16,7 +16,7 @@ _🔮 塔罗牌 🔮_
     <img src="https://img.shields.io/badge/nonebot2-2.0.0beta.2+-green">
   </a>
   
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.1">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.2">
     <img src="https://img.shields.io/github/v/release/MinatoAquaCrews/nonebot_plugin_tarot?color=orange">
   </a>
 
@@ -32,17 +32,17 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-v0.3.1
+v0.3.2
 
 ⚠ 适配nonebot2-2.0.0beta.2+
 
-[更新日志](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.1)
+[更新日志](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.2)
 
 ## 安装
 
 1. 通过`pip`或`nb`安装；
 
-    ⚠ 资源过大，pypi包不含`./resource`下所有资源；
+    ⚠ 资源过大，pypi包不含`./resource`下所有资源
 
 2. 塔罗牌图片资源默认位于`./resource`下，设置`env`下`TAROT_PATH`更改资源路径，`CHAIN_REPLY`设置全局启用群聊转发模式，可通过命令修改：
 
@@ -53,9 +53,9 @@ v0.3.1
 
 3. 启动时，插件会自动下载repo中最新的`resource/tarot.json`文件至用户指定目录，塔罗牌牌阵及解读不一定随版本更新；
 
-4. 图片资源可选择**不部署在本地**，占卜时会自动尝试从repo中下载缓存，但速度较慢。
+4. 图片资源可选择**不部署在本地**，占卜时会自动尝试从repo中下载缓存，但速度较慢，不确保次次成功。
 
-    ⚠ 使用`raw.fastgit.org`进行加速。
+    ⚠ 使用`raw.fastgit.org`进行加速
 
 ## 命令
 
@@ -81,11 +81,11 @@ v0.3.1
     - [塔罗牌](http://www.taluo.org/)
     - [灵匣](https://www.lnka.cn/)
 
-    🤔 也可以说是作者的解读版本。
+    🤔 也可以说是作者的解读版本
 
 4. 牌面资源：[阿里云盘](https://www.aliyundrive.com/s/cvbxLQQ9wD5/folder/61000cc1c78a1da52ef548beb9591a01bdb09a79)；
 
-    ⚠ 文件夹名称、大阿卡纳恶魔牌(The Devil)名称、权杖4名称、女皇牌(The Empress)名称有修改。
+    ⚠ 文件夹名称、大阿卡纳恶魔牌(The Devil)名称、权杖4名称、女皇牌(The Empress)名称有修改
 
 ## 本插件改自
 
