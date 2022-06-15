@@ -65,7 +65,7 @@ v0.3.2
 
 3. [超管] 开启/关闭群聊转发模式：[开启|启用|关闭|禁用] 群聊转发模式，可降低风控风险。
 
-  ⚠ 关于全局启用群聊转发模式指令：[#14](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/issues/14)，下个版本修复
+    ⚠ 关于全局启用群聊转发模式指令：[#14](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/issues/14)，下个版本修复
 
 ## 资源说明
 
