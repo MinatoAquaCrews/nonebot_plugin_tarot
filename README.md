@@ -65,8 +65,6 @@ v0.3.3
 
 3. [超管] 开启/关闭群聊转发模式：[开启|启用|关闭|禁用] 群聊转发模式，可降低风控风险。
 
-    ⚠ 关于全局启用群聊转发模式指令：[#14](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/issues/14)，下个版本修复
-
 ## 资源说明
 
 1. 韦特塔罗(Waite Tarot)包括22张大阿卡纳(Major Arcana)牌与权杖(Wands)、星币(Pentacles)、圣杯(Cups)、宝剑(Swords)各系14张的小阿卡纳(Minor Arcana)共56张牌组成，其中国王、皇后、骑士、侍从也称为宫廷牌(Court Cards)；
