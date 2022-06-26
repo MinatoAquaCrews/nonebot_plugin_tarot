@@ -7,7 +7,7 @@ from typing import List, Dict, Union
 from .config import tarot_config
 from .data_source import tarot_manager
 
-__tarot_version__ = "v0.3.2"
+__tarot_version__ = "v0.3.3"
 __tarot_notes__ = f'''
 塔罗牌 {__tarot_version__}
 [占卜] 随机选取牌阵进行占卜
@@ -16,7 +16,7 @@ __tarot_notes__ = f'''
 
 divine = on_command(cmd="占卜", priority=7)
 tarot = on_command(cmd="塔罗牌", priority=7)
-chain_reply_switch = on_regex(pattern=r"^(开启|启用|关闭|禁用)群聊转发(模式)", permission=SUPERUSER, priority=7, block=True)
+chain_reply_switch = on_regex(pattern=r"^(开启|启用|关闭|禁用)群聊转发(模式)?$", permission=SUPERUSER, priority=7, block=True)
 
 @divine.handle()
 async def _(bot: Bot, event: MessageEvent):

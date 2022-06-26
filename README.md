@@ -16,7 +16,7 @@ _🔮 塔罗牌 🔮_
     <img src="https://img.shields.io/badge/nonebot2-2.0.0beta.2+-green">
   </a>
   
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.2">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.3">
     <img src="https://img.shields.io/github/v/release/MinatoAquaCrews/nonebot_plugin_tarot?color=orange">
   </a>
 
@@ -32,17 +32,17 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-v0.3.2
+v0.3.3
 
 ⚠ 适配nonebot2-2.0.0beta.2+
 
-[更新日志](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.2)
+[更新日志](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.3)
 
 ## 安装
 
 1. 通过`pip`或`nb`安装；
 
-    ⚠ 资源过大，pypi包不含`./resource`下所有塔罗牌图片资源
+    ⚠ 资源过大，pypi包不含`./resource`下所有塔罗牌图片资源！
 
 2. 塔罗牌图片资源默认位于`./resource`下，设置`env`下`TAROT_PATH`更改资源路径，`CHAIN_REPLY`设置全局启用群聊转发模式，可通过命令修改：
 
@@ -53,15 +53,15 @@ v0.3.2
 
 3. 启动时，插件会自动下载repo中最新的`resource/tarot.json`文件至用户指定目录，塔罗牌牌阵及解读不一定随插件版本更新；
 
-4. 图片资源可选择**不部署在本地**，占卜时会自动尝试从repo中下载缓存，但速度较慢，不确保次次成功。
+4. 图片资源可选择**不部署在本地**，占卜时会自动尝试从repo中下载缓存。
 
-    ⚠ 使用`raw.fastgit.org`进行加速
+    ⚠ 使用`raw.fastgit.org`进行加速，不确保次次成功
 
 ## 命令
 
 1. 占卜：[占卜]；
 
-2. 得到单张塔罗牌回应：[塔罗牌]；[#12](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/issues/12)
+2. 得到单张塔罗牌回应：[塔罗牌]；
 
 3. [超管] 开启/关闭群聊转发模式：[开启|启用|关闭|禁用] 群聊转发，可降低风控风险。
 
