@@ -1,112 +1,172 @@
-from nonebot.adapters.onebot.v11 import MessageSegment
 import random
-from pathlib import Path 
+from pathlib import Path
 from typing import List, Dict, Union, Tuple
 from PIL import Image
 from io import BytesIO
+from nonebot.adapters.onebot.v11 import MessageSegment
+from nonebot.adapters.onebot.v11.event import MessageEvent, PrivateMessageEvent, GroupMessageEvent
+from nonebot.adapters.onebot.v11 import Bot
+from nonebot.matcher import Matcher
 from .config import tarot_config, get_tarot
 try:
     import ujson as json
 except ModuleNotFoundError:
     import json
 
+
+def chain_reply(bot: Bot, chain: List[Dict[str, Union[str, Dict[str, Union[str, MessageSegment]]]]], msg: MessageSegment) -> List[Dict[str, Union[str, Dict[str, Union[str, MessageSegment]]]]]:
+    data = {
+        "type": "node",
+        "data": {
+            "name": list(tarot_config.nickname)[0],
+            "uin": bot.self_id,
+            "content": msg
+        },
+    }
+    chain.append(data)
+    return chain
+
+
+def pick_theme() -> str:
+    themes: List[str] = [
+        f.name for f in tarot_config.tarot_path.iterdir() if f.is_dir()]
+
+    return random.choice(themes)
+
+
 class Tarot:
     def __init__(self):
-        self._init_json_ok: bool = False
-        self._formations: Dict[str, Dict[str, Union[int, bool, List[List[str]]]]] = {}
-        self._cards: Dict[str, Dict[str, Union[str, Dict[str, str]]]] = {}
-        self.cards_num: int = 0
+        self.tarot_json: Path = Path(__file__).parent / "tarot.json"
         self.is_chain_reply: bool = tarot_config.chain_reply
-        self.devined: List[str] = []
-        self.is_cut: bool = False
-        self.represent: List[str] = []
-    
-    def init_json(self):
-        tarot_json: Path = tarot_config.tarot_path / "tarot.json"
-        with open(tarot_json, 'r', encoding='utf-8') as f:
-            content = json.load(f)
-            self._formations = content.get("formation")
-            self._cards = content.get("cards")
-        
-        self._init_json_ok = True
-        
-    async def divine(self) -> Tuple[MessageSegment, int]:
-        '''
-            Get one formation of all formations
-        '''
-        if not self._init_json_ok:
-            self.init_json()
-            
-        formation_name = random.choice(list(self._formations))
-        formation = self._formations.get(formation_name)
-        self.cards_num = formation.get("cards_num")
-        self.devined = random.sample(list(self._cards), self.cards_num)
-        self.is_cut = formation.get("is_cut")
-        self.represent = random.choice(formation.get("represent"))
-        
-        return MessageSegment.text(f"启用{formation_name}，正在洗牌中"), self.cards_num
 
-    async def reveal(self, index: int) -> MessageSegment:
+    async def divine(self, bot: Bot, matcher: Matcher, event: MessageEvent) -> None:
         '''
-            index: 0 to cards_num-1
+            Random choose a formation, return the formation dictionary
         '''
-        if self.is_cut and index == self.cards_num - 1:
-            msg_header = MessageSegment.text(f"切牌「{self.represent[index]}」\n")
-        else:
-            msg_header = MessageSegment.text(f"第{index+1}张牌「{self.represent[index]}」\n")
-        
-        msg_body: MessageSegment = await self.multi_divine(index)
-        
-        return msg_header + msg_body
-        
-    async def multi_divine(self, index: int) -> MessageSegment:
+        with open(self.tarot_json, 'r', encoding='utf-8') as f:
+            content = json.load(f)
+            all_formations = content.get("formations")
+            all_cards = content.get("cards")
+            formation_name = random.choice(list(all_formations))
+            formation = all_formations.get(formation_name)
+
+        await matcher.send(f"启用{formation_name}，正在洗牌中")
+
         '''
-            Multi divines, arrcording to index get the meaning and image(up or down)
+            Get the number of cards to select & a list of cards
         '''
-        card: Dict[str, Dict[str, Union[str, Dict[str, str]]]] = self._cards.get(self.devined[index])
-        name_cn: str = card.get("name_cn")
-        img_path: Path = tarot_config.tarot_path / card.get("type") / card.get("pic")
-        if not img_path.exists():
-            data = await get_tarot(card.get("type"), card.get("pic"))
-            if data is None:
-                return MessageSegment.text(f"图片下载出错，请重试……")
-            
-            img = Image.open(BytesIO(data))
-        else:
-            img = Image.open(img_path)
-        
-        if random.random() < 0.5:
-            # 正位
-            meaning = card.get("meaning").get("up")
-            msg = MessageSegment.text(f"「{name_cn}正位」「{meaning}」\n")  
-        else:
-            meaning = card.get("meaning").get("down")
-            msg = MessageSegment.text(f"「{name_cn}逆位」「{meaning}」\n")
-            img = img.rotate(180)
-        
-        buf = BytesIO()
-        img.save(buf, format='png')
-        
-        return msg + MessageSegment.image(buf)
-    
+        cards_num: int = formation.get("cards_num")
+        devined: List[str] = random.sample(list(all_cards), cards_num)
+        is_cut: bool = formation.get("is_cut")
+        represent: List[Union[str, List[str]]] = random.choice(
+            formation.get("represent"))
+
+        chain = []
+        for i in range(cards_num):
+            # Select the #i tarot
+            card_info = all_cards.get(devined[i])
+            if is_cut and i == cards_num - 1:
+                msg_header = MessageSegment.text(f"切牌「{represent[i]}」\n")
+            else:
+                msg_header = MessageSegment.text(f"第{i+1}张牌「{represent[i]}」\n")
+
+            flag, msg_body = await self._get_text_and_image(card_info)
+            if not flag:
+                await matcher.finish(msg_body)
+
+            if isinstance(event, PrivateMessageEvent):
+                if i < cards_num:
+                    await matcher.send(msg_header + msg_body)
+                else:
+                    await matcher.finish(msg_header + msg_body)
+
+            elif isinstance(event, GroupMessageEvent):
+                if self.is_chain_reply:
+                    chain = chain_reply(bot, chain, msg_header + msg_body)
+                else:
+                    if i < cards_num - 1:
+                        await matcher.send(msg_header + msg_body)
+                    else:
+                        await matcher.finish(msg_header + msg_body)
+            else:
+                return None
+
+        if self.is_chain_reply:
+            await bot.send_group_forward_msg(group_id=event.group_id, messages=chain)
+
     async def single_divine(self) -> MessageSegment:
         '''
             Single divine, get a tarot
         '''
-        if not self._init_json_ok:
-            self.init_json()
-              
-        self.devined = [random.choice(list(self._cards))]
-        
-        msg = MessageSegment.text("回应是")
-        body: MessageSegment = await self.multi_divine(0)
-        
+        # 1. Pick a theme randomly
+        theme: str = pick_theme()
+
+        card_info = self._get_card_info()
+
+        msg: str = "回应是"
+        flag, body = await self._get_text_and_image(card_info)
+
+        if not flag:
+            return body
+
         return msg + body
-    
+
     def switch_chain_reply(self, new_state: bool) -> None:
         '''
-            开启/关闭群聊转发模式
+            开启/关闭全局群聊转发模式
         '''
         self.is_chain_reply = new_state
+    
+    def _get_card_info(self, _theme: str) -> Dict[str, Union[str, Dict[str, str]]]:
+        with open(self.tarot_json, 'r', encoding='utf-8') as f:
+            content = json.load(f)
+            all_cards = content.get("cards")
+            
+        if "Touhou" in _theme:
+            only_MajorArcana = {
+                k: v for k, v in all_cards.items() if int(k) < 22
+            }
+            card_index = random.choice(list(only_MajorArcana))
+        else:
+            card_index = random.choice(list(all_cards))
+        
+        card_info = all_cards.get(card_index)
+        
+        return card_info
+
+    async def _get_text_and_image(self, card_info: Dict[str, Union[str, Dict[str, str]]]) -> Tuple[bool, MessageSegment]:
+        '''
+            Get a tarot image(up or down) & text arrcording to the card info
+        '''
+
+        # 2. Get or download the image
+        name_cn: str = card_info.get("name_cn")
+        img_path = Path(tarot_config.tarot_path / theme /
+                        card_info.get("type")).glob(card_info.get("pic") + ".*")
+
+        if not img_path.exists():
+            data = await get_tarot(theme, card_info.get("type"), card_info.get("pic"))
+            if data is None:
+                return False, MessageSegment.text("图片下载出错，请重试……")
+
+            img: Image.Image = Image.open(BytesIO(data))
+        else:
+            img: Image.Image = Image.open(img_path)
+
+        # 3. Choose up or down
+        if random.random() < 0.5:
+            # 正位
+            meaning = card_info.get("meaning").get("up")
+            msg = MessageSegment.text(f"「{name_cn}正位」「{meaning}」\n")
+        else:
+            meaning = card_info.get("meaning").get("down")
+            msg = MessageSegment.text(f"「{name_cn}逆位」「{meaning}」\n")
+            img = img.rotate(180)
+
+        buf = BytesIO()
+        img.save(buf, format='png')
+
+        return True, msg + MessageSegment.image(buf)
+
 
 tarot_manager = Tarot()

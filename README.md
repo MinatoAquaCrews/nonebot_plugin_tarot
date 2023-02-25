@@ -8,20 +8,24 @@ _🔮 塔罗牌 🔮_
 
 <p align="center">
   
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/blob/beta/LICENSE">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/MinatoAquaCrews/nonebot_plugin_tarot?color=blue">
   </a>
   
   <a href="https://github.com/nonebot/nonebot2">
-    <img src="https://img.shields.io/badge/nonebot2-2.0.0beta.2+-green">
+    <img src="https://img.shields.io/badge/nonebot2-2.0.0b2+-green">
   </a>
   
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.3">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a1">
     <img src="https://img.shields.io/github/v/release/MinatoAquaCrews/nonebot_plugin_tarot?color=orange">
   </a>
 
   <a href="https://www.codefactor.io/repository/github/MinatoAquaCrews/nonebot_plugin_tarot">
-    <img src="https://img.shields.io/codefactor/grade/github/MinatoAquaCrews/nonebot_plugin_tarot/beta?color=red">
+    <img src="https://img.shields.io/codefactor/grade/github/MinatoAquaCrews/nonebot_plugin_tarot/main?color=red">
+  </a>
+
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot">
+    <img src="https://img.shields.io/pypi/dm/nonebot_plugin_tarot">
   </a>
   
 </p>
@@ -32,11 +36,11 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-v0.3.3
+v0.4.0a1
 
-⚠ 适配nonebot2-2.0.0beta.2+
+⚠ 适配nonebot2-2.0.0b2+
 
-[更新日志](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.3.3)
+[更新日志](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a1)
 
 ## 安装
 
@@ -44,7 +48,7 @@ v0.3.3
 
     ⚠ 资源过大，pypi包不含`./resource`下所有塔罗牌图片资源！
 
-2. 塔罗牌图片资源默认位于`./resource`下，设置`env`下`TAROT_PATH`更改资源路径，`CHAIN_REPLY`设置全局启用群聊转发模式，可通过命令修改：
+2. 设置`env`下`TAROT_PATH`更改资源路径，`CHAIN_REPLY`设置全局群聊转发模式，可通过命令修改：
 
     ```python
     TAROT_PATH="./data/path-to-your-resource"
@@ -59,11 +63,11 @@ v0.3.3
 
 ## 命令
 
-1. 占卜：[占卜]；
+1. 启用牌阵进行占卜：[占卜]；
 
 2. 得到单张塔罗牌回应：[塔罗牌]；
 
-3. [超管] 开启/关闭群聊转发模式：[开启|启用|关闭|禁用] 群聊转发模式，可降低风控风险。
+3. [超管] 群聊转发模式全局开关：[开启|启用|关闭|禁用] 群聊转发模式，可降低风控风险。
 
 ## 资源说明
 
