@@ -2,8 +2,8 @@ from nonebot import on_command, on_regex
 from nonebot.permission import SUPERUSER
 from nonebot.plugin import PluginMetadata
 from nonebot.matcher import Matcher
-from nonebot.adapters.onebot.v11.event import MessageEvent, GroupMessageEvent
 from nonebot.adapters.onebot.v11 import Bot
+from nonebot.adapters.onebot.v11.event import MessageEvent, GroupMessageEvent
 from .data_source import tarot_manager
 
 __tarot_version__ = "v0.4.0a1"
@@ -32,20 +32,20 @@ chain_reply_switch = on_regex(
 @divine.handle()
 async def general_divine(bot: Bot, matcher: Matcher, event: MessageEvent):
     arg: str = event.get_plaintext()
-    
+
     if "帮助" in arg[-2:]:
         await matcher.finish(__tarot_usages__)
-    
+
     await tarot_manager.divine(bot, matcher, event)
 
 
 @tarot.handle()
 async def _(matcher: Matcher, event: MessageEvent):
     arg: str = event.get_plaintext()
-    
+
     if "帮助" in arg[-2:]:
         await matcher.finish(__tarot_usages__)
-    
+
     msg = await tarot_manager.single_divine()
     await matcher.finish(msg)
 

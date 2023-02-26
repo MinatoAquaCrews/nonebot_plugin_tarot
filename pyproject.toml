@@ -24,4 +24,4 @@ build-backend = "poetry.core.masonry.api"
 [[tool.poetry.source]]
 name = "tencentyun"
 url = "https://mirrors.tencent.com/pypi/simple"
-default = true
+default = false

@@ -16,7 +16,7 @@ class PluginConfig(BaseModel, extra=Extra.ignore):
         Path of tarot images resource
     '''
     tarot_path: Path = Path(__file__).parent / "resource"
-    chain_reply: bool = False
+    chain_reply: bool = True
     nickname: Set[str] = {"Bot"}
 
 
@@ -29,6 +29,10 @@ class DownloadError(Exception):
 
 
 class ResourceError(Exception):
+    pass
+
+
+class EventsNotSupport(Exception):
     pass
 
 
@@ -57,7 +61,7 @@ async def tarot_version_check() -> None:
         tarot_config.tarot_path.mkdir(parents=True, exist_ok=True)
 
     tarot_json_path = Path(__file__).parent / "tarot.json"
-    
+
     cur_version = 0
     if tarot_json_path.exists():
         with tarot_json_path.open("r", encoding="utf-8") as f:
@@ -66,7 +70,7 @@ async def tarot_version_check() -> None:
 
     url = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/main/nonebot_plugin_tarot/tarot.json"
     response = await download_url(url)
-    
+
     if response is None:
         if not tarot_json_path.exists():
             logger.warning("Tarot text resource missing! Please check!")
@@ -76,7 +80,8 @@ async def tarot_version_check() -> None:
         try:
             version = docs.get("version")
         except KeyError:
-            logger.warning("Tarot text resource downloaded incompletely! Please check!")
+            logger.warning(
+                "Tarot text resource downloaded incompletely! Please check!")
             raise DownloadError
 
         if version > cur_version:
@@ -96,10 +101,11 @@ async def get_tarot(_theme: str, _type: str, _name_cn: str) -> Union[bytes, None
 
     url = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/main/nonebot_plugin_tarot/resource/" + \
         f"{_theme}/{_type}/{_name_cn}"
-    
+
     data = await download_url(url)
     if data is None:
-        logger.warning(f"Downloading tarot image {_theme}/{_type}/{_name_cn} failed!")
+        logger.warning(
+            f"Downloading tarot image {_theme}/{_type}/{_name_cn} failed!")
         return None
-    
+
     return data.content
