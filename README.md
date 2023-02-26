@@ -27,6 +27,10 @@ _🔮 塔罗牌 🔮_
   <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot">
     <img src="https://img.shields.io/pypi/dm/nonebot_plugin_tarot">
   </a>
+
+  <a href="https://results.pre-commit.ci/latest/github/MinatoAquaCrews/nonebot_plugin_tarot/main">
+	<img src="https://results.pre-commit.ci/badge/github/MinatoAquaCrews/nonebot_plugin_tarot/main.svg" alt="pre-commit.ci status">
+  </a>
   
 </p>
 
@@ -36,30 +40,28 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-v0.4.0a1
+[v0.4.0a1](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a1)
 
 ⚠ 适配nonebot2-2.0.0b2+
 
 👉 [如何添加新的塔罗牌主题资源？](./How-to-add-new-tarot-theme.md)欢迎贡献！🙏
 
-[更新日志](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a1)
-
 ## 安装
 
-1. 通过`pip`或`nb`安装。pypi无法发行过大安装包，由此安装的插件不包含`./resource`下**所有塔罗牌主题资源**，可在[release](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a1)页面下载各主题资源至本地，后更改`TAROT_PATH`配置即可；
+1. 通过 `pip` 或 `nb` 安装。pypi无法发行过大安装包，由此安装的插件不包含 `./resource` 下**所有塔罗牌主题资源**，可在[release](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a1)页面下载各主题资源至本地，后更改`TAROT_PATH`配置即可；
 
-2. `env`下设置`TAROT_PATH`以更改资源路径，`CHAIN_REPLY`设置全局群聊转发模式（避免刷屏），亦可通过命令修改：
+2. `env` 下设置 `TAROT_PATH` 以更改资源路径，`CHAIN_REPLY` 设置全局群聊转发模式（避免刷屏），亦可通过命令修改：
 
     ```python
     TAROT_PATH="./data/path-to-your-resource"
     CHAIN_REPLY=false
     ```
 
-3. 启动时，插件会自动下载repo中最新的`tarot.json`文件，`tarot.json`不一定随插件版本更新；
+3. 启动时，插件会自动下载repo中最新的 `tarot.json` 文件，`tarot.json` 不一定随插件版本更新；
 
 4. 图片资源可选择**不部署在本地**，插件会自动尝试从repo中下载缓存。
 
-    ⚠ 使用`raw.fastgit.org`进行加速，不确保次次成功
+    ⚠ 使用 `raw.fastgit.org` 进行加速，不确保次次成功
 
 ## 命令
 
@@ -74,7 +76,6 @@ v0.4.0a1
 1. 韦特塔罗(Waite Tarot)包括22张大阿卡纳(Major Arcana)牌与权杖(Wands)、星币(Pentacles)、圣杯(Cups)、宝剑(Swords)各系14张的小阿卡纳(Minor Arcana)共56张牌组成，其中国王、皇后、骑士、侍从也称为宫廷牌(Court Cards)；
 
 	- BilibiliTarot：B站幻星集主题塔罗牌
-  
 	- TouhouTarot：东方主题塔罗牌，仅包含大阿卡纳
 
 	⚠ 资源中额外四张王牌(Ace)不在体系中，因此不会在占卜时用到，因为小阿卡纳中各系均有Ace牌，但可以自行收藏。
@@ -97,12 +98,12 @@ v0.4.0a1
 
 		⚠ 请注意：文件夹名称、大阿卡纳恶魔牌(The Devil)名称、权杖4名称、女皇牌(The Empress)名称有修改
 
-	- TouhouTarot：[Oeeder/PluginVoodoo-Touhou](https://github.com/Oeeder/PluginVoodoo-Touhou/releases/tag/PluginVoodoo)，原作[燕山/切り絵東方タロットカード大アルカナ22枚](https://www.pixiv.net/artworks/93632047)
+	- TouhouTarot：[Oeeder/PluginVoodoo-Touhou](https://github.com/Oeeder/PluginVoodoo-Touhou/releases/tag/PluginVoodoo)，原作：[燕山/切り絵東方タロットカード大アルカナ22枚](https://www.pixiv.net/artworks/93632047)
 
 		⚠ 请注意：文件名称有修改
 
 ## 本插件改自
 
-1. [真寻bot插件库-tarot](https://github.com/AkashiCoin/nonebot_plugins_zhenxun_bot)
+1. [真寻bot插件库/tarot](https://github.com/AkashiCoin/nonebot_plugins_zhenxun_bot)
 
 2. [haha114514/tarot_hoshino](https://github.com/haha114514/tarot_hoshino)
