@@ -13,10 +13,10 @@ _🔮 塔罗牌 🔮_
   </a>
   
   <a href="https://github.com/nonebot/nonebot2">
-    <img src="https://img.shields.io/badge/nonebot2-2.0.0b2+-green">
+    <img src="https://img.shields.io/badge/nonebot2-2.0.0b3+-green">
   </a>
   
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a1">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a2">
     <img src="https://img.shields.io/github/v/release/MinatoAquaCrews/nonebot_plugin_tarot?color=orange">
   </a>
 
@@ -40,15 +40,15 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-[v0.4.0a1](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a1)
+💥 [v0.4.0a2](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a2)
 
-⚠ 适配nonebot2-2.0.0b2+
+⚠ 适配nonebot2-2.0.0b3+
 
 👉 [如何添加新的塔罗牌主题资源？](./How-to-add-new-tarot-theme.md)欢迎贡献！🙏
 
 ## 安装
 
-1. 通过 `pip` 或 `nb` 安装。pypi无法发行过大安装包，由此安装的插件不包含 `./resource` 下**所有塔罗牌主题资源**，可在[release](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a1)页面下载各主题资源至本地，后更改`TAROT_PATH`配置即可；
+1. 通过 `pip` 或 `nb` 安装。pypi无法发行过大安装包，由此安装的插件不包含 `./resource` 下**所有塔罗牌主题资源**。[release](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a2)页面提供各主题资源，下载至本地后更改 `TAROT_PATH` 配置即可；
 
 2. `env` 下设置 `TAROT_PATH` 以更改资源路径，`CHAIN_REPLY` 设置全局群聊转发模式（避免刷屏），亦可通过命令修改：
 
@@ -80,9 +80,9 @@ _🔮 塔罗牌 🔮_
 
 	⚠ 资源中额外四张王牌(Ace)不在体系中，因此不会在占卜时用到，因为小阿卡纳中各系均有Ace牌，但可以自行收藏。
 
-2. `tarot.json`中对牌阵，抽牌张数、是否有切牌、各牌正逆位解读进行说明。`cards`字段下对所有塔罗牌做了正逆位含义与资源路径的说明；
+2. `tarot.json`中对牌阵，抽牌张数、是否有切牌、各牌正逆位解读进行说明。`cards` 字段下对所有塔罗牌做了正逆位含义与资源路径的说明；
 
-3. 根据牌阵的不同有不同的塔罗牌解读，同时也与问卜者的问题、占卜者的解读等因素相关，因此不存在所谓的解读方式正确与否。`cards`字段下的正逆位含义参考以下以及其他网络资源：
+3. 根据牌阵的不同有不同的塔罗牌解读，同时也与问卜者的问题、占卜者的解读等因素相关，因此不存在所谓的解读方式正确与否。`cards` 字段下的正逆位含义参考以下以及其他网络资源：
 
     - 《棱镜/耀光塔罗牌中文翻译》，中华塔罗会馆(CNTAROT)，版权原因恕不提供
     - [AlerHugu3s-PluginVoodoo](https://github.com/AlerHugu3s/PluginVoodoo/blob/master/data/PluginVoodoo/TarotData/Tarots.json)
@@ -94,13 +94,13 @@ _🔮 塔罗牌 🔮_
 
 4. 牌面资源下载：
 	
-	- BilibiliTarot：[阿里云盘](https://www.aliyundrive.com/s/cvbxLQQ9wD5/folder/61000cc1c78a1da52ef548beb9591a01bdb09a79)
+   - BilibiliTarot：[阿里云盘](https://www.aliyundrive.com/s/cvbxLQQ9wD5/folder/61000cc1c78a1da52ef548beb9591a01bdb09a79)
 
-		⚠ 请注意：文件夹名称、大阿卡纳恶魔牌(The Devil)名称、权杖4名称、女皇牌(The Empress)名称有修改
+		⚠ 文件夹名称、大阿卡纳恶魔牌(The Devil)名称、权杖4名称、女皇牌(The Empress)名称有修改
 
-	- TouhouTarot：[Oeeder/PluginVoodoo-Touhou](https://github.com/Oeeder/PluginVoodoo-Touhou/releases/tag/PluginVoodoo)，原作：[燕山/切り絵東方タロットカード大アルカナ22枚](https://www.pixiv.net/artworks/93632047)
+   - TouhouTarot：[Oeeder/PluginVoodoo-Touhou](https://github.com/Oeeder/PluginVoodoo-Touhou/releases/tag/PluginVoodoo)，原作：[燕山/切り絵東方タロットカード大アルカナ22枚](https://www.pixiv.net/artworks/93632047)
 
-		⚠ 请注意：文件名称有修改
+		⚠ 文件名称有修改
 
 ## 本插件改自
 

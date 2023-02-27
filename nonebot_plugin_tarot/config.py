@@ -43,8 +43,10 @@ async def download_url(url: str) -> Union[httpx.Response, None]:
                 response = await client.get(url)
                 if response.status_code != 200:
                     continue
+
                 return response
-            except Exception as e:
+
+            except Exception:
                 logger.warning(
                     f"Error occured when downloading {url}, {i+1}/3")
 
@@ -84,6 +86,7 @@ async def tarot_version_check() -> None:
                 "Tarot text resource downloaded incompletely! Please check!")
             raise DownloadError
 
+        # Update when there is a newer version
         if version > cur_version:
             with tarot_json_path.open("w", encoding="utf-8") as f:
                 json.dump(docs, f, ensure_ascii=False, indent=4)
@@ -97,12 +100,14 @@ async def get_tarot(_theme: str, _type: str, _name_cn: str) -> Union[bytes, None
         Downloads tarot image and stores cache temporarily
         if downloading failed, return None
     '''
-    logger.info(f"Downloading tarot image {_theme}/{_type}/{_name_cn}")
+    logger.info(
+        f"Downloading tarot image {_theme}/{_type}/{_name_cn} from repo")
 
     url = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/main/nonebot_plugin_tarot/resource/" + \
         f"{_theme}/{_type}/{_name_cn}"
 
     data = await download_url(url)
+    
     if data is None:
         logger.warning(
             f"Downloading tarot image {_theme}/{_type}/{_name_cn} failed!")

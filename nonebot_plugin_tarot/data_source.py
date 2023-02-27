@@ -7,7 +7,7 @@ import asyncio
 from nonebot.adapters.onebot.v11 import Bot, MessageSegment
 from nonebot.adapters.onebot.v11.event import MessageEvent, PrivateMessageEvent, GroupMessageEvent
 from nonebot.matcher import Matcher
-from .config import tarot_config, get_tarot, EventsNotSupport
+from .config import tarot_config, get_tarot, EventsNotSupport, ResourceError
 try:
     import ujson as json
 except ModuleNotFoundError:
@@ -31,6 +31,9 @@ def chain_reply(bot: Bot,
 
 
 def pick_theme() -> str:
+    '''
+        Return the existing themes in directory
+    '''
     return random.choice([f.name for f in tarot_config.tarot_path.iterdir() if f.is_dir()])
 
 
@@ -95,7 +98,7 @@ class Tarot:
                 else:
                     if i < cards_num - 1:
                         await matcher.send(msg_header + msg_body)
-                        await asyncio.sleep(1) # In case for frequency sending
+                        await asyncio.sleep(1)  # In case of frequency sending
                     else:
                         await matcher.finish(msg_header + msg_body)
             else:
@@ -115,10 +118,10 @@ class Tarot:
         with open(self.tarot_json, 'r', encoding='utf-8') as f:
             content = json.load(f)
             all_cards = content.get("cards")
-            card_info_dic = self._random_cards(all_cards, theme)
+            card_info_list = self._random_cards(all_cards, theme)
 
         # 3. Get the text and image
-        flag, body = await self._get_text_and_image(theme, card_info_dic)
+        flag, body = await self._get_text_and_image(theme, card_info_list[0])
 
         return "回应是" + body if flag else body
 
@@ -132,33 +135,29 @@ class Tarot:
                       all_cards: Dict[str, Dict[str, Dict[str, Union[str, Dict[str, str]]]]],
                       theme: str,
                       num: int = 1
-                      ) -> Union[List[Dict[str, Union[str, Dict[str, str]]]], Dict[str, Union[str, Dict[str, str]]]]:
+                      ) -> List[Dict[str, Union[str, Dict[str, str]]]]:
         '''
             Iterate the sub directory, get the subset of cards
         '''
-        all_sub_themes: List[str] = ["MajorArcana",
-                                     "Cups", "Pentacles", "Sowrds", "Wands"]
-        sub_themes: List[str] = []
+        all_sub_types: List[str] = ["MajorArcana",
+                                    "Cups", "Pentacles", "Sowrds", "Wands"]
+        sub_types: List[str] = []
 
+        # 1. Get the sub types
         for sub in (tarot_config.tarot_path / theme).iterdir():
-            if sub.is_dir() and sub.name in all_sub_themes:
-                sub_themes.append(sub.name)
+            if sub.is_dir() and sub.name in all_sub_types:
+                sub_types.append(sub.name)
 
-        subset = {
-            k: v for k, v in all_cards.items() if v.get("type") in sub_themes
+        subset: Dict[str, Dict[str, Union[str, Dict[str, str]]]] = {
+            k: v for k, v in all_cards.items() if v.get("type") in sub_types
         }
 
-        if num > 1:
-            cards_index: List[str] = random.sample(list(subset), num)
-            cards_info = [
-                v for k, v in subset.items() if k in cards_index
-            ]
-            return cards_info
-
-        else:
-            card_index: str = random.choice(list(subset))
-            card_info = subset.get(card_index)
-            return card_info
+        # 2. Random sample the cards according to the num
+        cards_index: List[str] = random.sample(list(subset), num)
+        cards_info: List[Dict[str, Union[str, Dict[str, str]]]] = [
+            v for k, v in subset.items() if k in cards_index]
+        
+        return cards_info
 
     async def _get_text_and_image(self,
                                   theme: str,
@@ -166,17 +165,23 @@ class Tarot:
                                                   Union[str, Dict[str, str]]]
                                   ) -> Tuple[bool, MessageSegment]:
         '''
-            Get a tarot image & text arrcording to the card_info
+            Get a tarot image & text arrcording to the "card_info"
         '''
         for p in Path(tarot_config.tarot_path / theme / card_info.get("type")).glob(card_info.get("pic") + ".*"):
             img_path: Path = p
 
         if not img_path.exists():
-            data = await get_tarot(theme, card_info.get("type"), card_info.get("pic"))
-            if data is None:
-                return False, MessageSegment.text("图片下载出错，请重试……")
+            official_themes: List[str] = ["BilibiliTarot", "TouhouTarot"]
 
-            img: Image.Image = Image.open(BytesIO(data))
+            if theme in official_themes:
+                data = await get_tarot(theme, card_info.get("type"), card_info.get("pic"))
+                if data is None:
+                    return False, MessageSegment.text("图片下载出错，请检查重试……")
+
+                img: Image.Image = Image.open(BytesIO(data))
+            # If this is user's theme, but img_path doesn't exists
+            else:
+                raise ResourceError
         else:
             img: Image.Image = Image.open(img_path)
 
