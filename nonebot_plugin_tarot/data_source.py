@@ -107,9 +107,9 @@ class Tarot:
         if self.is_chain_reply:
             await bot.send_group_forward_msg(group_id=event.group_id, messages=chain)
 
-    async def single_divine(self) -> MessageSegment:
+    async def onetime_divine(self) -> MessageSegment:
         '''
-            Single divination.
+            One-time divination.
         '''
         # 1. Pick a theme randomly
         theme: str = pick_theme()
@@ -156,7 +156,7 @@ class Tarot:
         cards_index: List[str] = random.sample(list(subset), num)
         cards_info: List[Dict[str, Union[str, Dict[str, str]]]] = [
             v for k, v in subset.items() if k in cards_index]
-        
+
         return cards_info
 
     async def _get_text_and_image(self,
@@ -167,21 +167,26 @@ class Tarot:
         '''
             Get a tarot image & text arrcording to the "card_info"
         '''
-        for p in Path(tarot_config.tarot_path / theme / card_info.get("type")).glob(card_info.get("pic") + ".*"):
+        _type: str = card_info.get("type")
+        _name: str = card_info.get("pic")
+
+        for p in Path(tarot_config.tarot_path / theme / _type).glob(_name + ".*"):
             img_path: Path = p
 
         if not img_path.exists():
             official_themes: List[str] = ["BilibiliTarot", "TouhouTarot"]
 
+            # Image doesn't exist but in official repo, try to download
             if theme in official_themes:
-                data = await get_tarot(theme, card_info.get("type"), card_info.get("pic"))
+                data = await get_tarot(theme, _type, _name)
                 if data is None:
                     return False, MessageSegment.text("图片下载出错，请检查重试……")
 
                 img: Image.Image = Image.open(BytesIO(data))
-            # If this is user's theme, but img_path doesn't exists
+            # In user's theme, then raise ResourceError
             else:
-                raise ResourceError
+                raise ResourceError(
+                    f"Tarot image {theme}/{_type}/{_name} doesn't exist! Make sure the type {_type} is complete.")
         else:
             img: Image.Image = Image.open(img_path)
 

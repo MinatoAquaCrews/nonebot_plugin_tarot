@@ -10,4 +10,4 @@ updates:
     schedule:
       interval: "monthly"
         
-    target-branch: "dev"
+    target-branch: "master"

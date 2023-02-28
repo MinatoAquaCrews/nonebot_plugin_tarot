@@ -8,7 +8,7 @@ _🔮 塔罗牌 🔮_
 
 <p align="center">
   
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/blob/main/LICENSE">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/MinatoAquaCrews/nonebot_plugin_tarot?color=blue">
   </a>
   
@@ -16,7 +16,7 @@ _🔮 塔罗牌 🔮_
     <img src="https://img.shields.io/badge/nonebot2-2.0.0b3+-green">
   </a>
   
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a2">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0rc1">
     <img src="https://img.shields.io/github/v/release/MinatoAquaCrews/nonebot_plugin_tarot?color=orange">
   </a>
 
@@ -28,8 +28,8 @@ _🔮 塔罗牌 🔮_
     <img src="https://img.shields.io/pypi/dm/nonebot_plugin_tarot">
   </a>
 
-  <a href="https://results.pre-commit.ci/latest/github/MinatoAquaCrews/nonebot_plugin_tarot/main">
-	<img src="https://results.pre-commit.ci/badge/github/MinatoAquaCrews/nonebot_plugin_tarot/main.svg" alt="pre-commit.ci status">
+  <a href="https://results.pre-commit.ci/latest/github/MinatoAquaCrews/nonebot_plugin_tarot/master">
+	<img src="https://results.pre-commit.ci/badge/github/MinatoAquaCrews/nonebot_plugin_tarot/master.svg" alt="pre-commit.ci status">
   </a>
   
 </p>
@@ -40,7 +40,7 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-💥 [v0.4.0a2](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a2)
+💥 [v0.4.0rc1](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0rc1)
 
 ⚠ 适配nonebot2-2.0.0b3+
 
@@ -48,12 +48,12 @@ _🔮 塔罗牌 🔮_
 
 ## 安装
 
-1. 通过 `pip` 或 `nb` 安装。pypi无法发行过大安装包，由此安装的插件不包含 `./resource` 下**所有塔罗牌主题资源**。[release](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0a2)页面提供各主题资源，下载至本地后更改 `TAROT_PATH` 配置即可；
+1. 通过 `pip` 或 `nb` 安装。pypi无法发行过大安装包，由此安装的插件不包含 `./resource` 下**所有塔罗牌主题资源**。请在[release](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0rc1)页面下载各主题资源，部署至本地后修改 `TAROT_PATH` 配置即可；
 
-2. `env` 下设置 `TAROT_PATH` 以更改资源路径，`CHAIN_REPLY` 设置全局群聊转发模式（避免刷屏），亦可通过命令修改：
+2. `env` 下设置 `TAROT_PATH` 以更改资源路径，`CHAIN_REPLY` 设置全局群聊转发模式（避免刷屏），亦可通过命令修改。例如：
 
     ```python
-    TAROT_PATH="./data/path-to-your-resource"
+    TAROT_PATH="~/data/path-to-your-resource"
     CHAIN_REPLY=false
     ```
 
@@ -61,7 +61,7 @@ _🔮 塔罗牌 🔮_
 
 4. 图片资源可选择**不部署在本地**，插件会自动尝试从repo中下载缓存。
 
-    ⚠ 使用 `raw.fastgit.org` 进行加速，不确保次次成功
+    ⚠ 使用 `raw.fastgit.org` 进行下载，不确保次次成功
 
 ## 命令
 
@@ -85,7 +85,7 @@ _🔮 塔罗牌 🔮_
 3. 根据牌阵的不同有不同的塔罗牌解读，同时也与问卜者的问题、占卜者的解读等因素相关，因此不存在所谓的解读方式正确与否。`cards` 字段下的正逆位含义参考以下以及其他网络资源：
 
     - 《棱镜/耀光塔罗牌中文翻译》，中华塔罗会馆(CNTAROT)，版权原因恕不提供
-    - [AlerHugu3s-PluginVoodoo](https://github.com/AlerHugu3s/PluginVoodoo/blob/master/data/PluginVoodoo/TarotData/Tarots.json)
+    - [AlerHugu3s/PluginVoodoo](https://github.com/AlerHugu3s/PluginVoodoo/blob/master/data/PluginVoodoo/TarotData/Tarots.json)
     - [塔罗.中国](https://tarotchina.net/)
     - [塔罗牌](http://www.taluo.org/)
     - [灵匣](https://www.lnka.cn/)

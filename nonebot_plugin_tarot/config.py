@@ -29,7 +29,14 @@ class DownloadError(Exception):
 
 
 class ResourceError(Exception):
-    pass
+
+    def __init__(self, msg: str):
+        self.msg = msg
+
+    def __str__(self):
+        return self.msg
+
+    __repr__ = __str__
 
 
 class EventsNotSupport(Exception):
@@ -70,13 +77,13 @@ async def tarot_version_check() -> None:
             data = json.load(f)
             cur_version = data.get("version", 0)
 
-    url = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/main/nonebot_plugin_tarot/tarot.json"
+    url = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/tarot.json"
     response = await download_url(url)
 
     if response is None:
         if not tarot_json_path.exists():
             logger.warning("Tarot text resource missing! Please check!")
-            raise ResourceError
+            raise ResourceError("Missing necessary resource: tarot.json!")
     else:
         docs = response.json()
         try:
@@ -95,22 +102,22 @@ async def tarot_version_check() -> None:
 
 
 @cached(ttl=180)
-async def get_tarot(_theme: str, _type: str, _name_cn: str) -> Union[bytes, None]:
+async def get_tarot(_theme: str, _type: str, _name: str) -> Union[bytes, None]:
     '''
         Downloads tarot image and stores cache temporarily
         if downloading failed, return None
     '''
     logger.info(
-        f"Downloading tarot image {_theme}/{_type}/{_name_cn} from repo")
+        f"Downloading tarot image {_theme}/{_type}/{_name} from repo")
 
-    url = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/main/nonebot_plugin_tarot/resource/" + \
-        f"{_theme}/{_type}/{_name_cn}"
+    url = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/resource/" + \
+        f"{_theme}/{_type}/{_name}"
 
     data = await download_url(url)
-    
+
     if data is None:
         logger.warning(
-            f"Downloading tarot image {_theme}/{_type}/{_name_cn} failed!")
+            f"Downloading tarot image {_theme}/{_type}/{_name} failed!")
         return None
 
     return data.content

@@ -16,14 +16,14 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
-    
+  publish_prerelease:
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v3
       with:
-        ref: main
+        ref: ${{ env.TAG_NAME }}
+  
     - name: Publish python poetry package
       uses: JRubics/poetry-publish@v1.16
       with:
