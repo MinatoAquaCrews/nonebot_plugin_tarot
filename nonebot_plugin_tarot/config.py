@@ -21,7 +21,8 @@ class PluginConfig(BaseModel, extra=Extra.ignore):
 
 
 driver = nonebot.get_driver()
-tarot_config: PluginConfig = PluginConfig.parse_obj(driver.config.dict())
+tarot_config: PluginConfig = PluginConfig.parse_obj(
+    driver.config.dict(exclude_unset=True))
 
 
 class DownloadError(Exception):

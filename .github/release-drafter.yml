@@ -27,6 +27,6 @@ version-resolver:
 template: |
   适配b3+
 
-  Update Log 23/
+  Update Log
 
   Changelog: [`$PREVIOUS_TAG...${{ env.TAG_NAME }}`]()

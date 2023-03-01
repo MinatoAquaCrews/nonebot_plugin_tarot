@@ -16,12 +16,12 @@ _🔮 塔罗牌 🔮_
     <img src="https://img.shields.io/badge/nonebot2-2.0.0b3+-green">
   </a>
   
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0rc1">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0">
     <img src="https://img.shields.io/github/v/release/MinatoAquaCrews/nonebot_plugin_tarot?color=orange">
   </a>
 
   <a href="https://www.codefactor.io/repository/github/MinatoAquaCrews/nonebot_plugin_tarot">
-    <img src="https://img.shields.io/codefactor/grade/github/MinatoAquaCrews/nonebot_plugin_tarot/main?color=red">
+    <img src="https://img.shields.io/codefactor/grade/github/MinatoAquaCrews/nonebot_plugin_tarot/master?color=red">
   </a>
 
   <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot">
@@ -40,7 +40,7 @@ _🔮 塔罗牌 🔮_
 
 ## 版本
 
-💥 [v0.4.0rc1](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0rc1)
+💥 [v0.4.0](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0)
 
 ⚠ 适配nonebot2-2.0.0b3+
 
@@ -48,7 +48,7 @@ _🔮 塔罗牌 🔮_
 
 ## 安装
 
-1. 通过 `pip` 或 `nb` 安装。pypi无法发行过大安装包，由此安装的插件不包含 `./resource` 下**所有塔罗牌主题资源**。请在[release](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0rc1)页面下载各主题资源，部署至本地后修改 `TAROT_PATH` 配置即可；
+1. 通过 `pip` 或 `nb` 安装。pypi无法发行过大安装包，由此安装的插件不包含 `./resource` 下**所有塔罗牌主题资源**。请在[release](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0)页面下载各主题资源，部署至本地后修改 `TAROT_PATH` 配置即可；
 
 2. `env` 下设置 `TAROT_PATH` 以更改资源路径，`CHAIN_REPLY` 设置全局群聊转发模式（避免刷屏），亦可通过命令修改。例如：
 
