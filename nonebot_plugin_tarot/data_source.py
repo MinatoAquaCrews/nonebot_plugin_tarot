@@ -51,8 +51,11 @@ def pick_sub_types(theme: str) -> List[str]:
     all_sub_types: List[str] = ["MajorArcana",
                                 "Cups", "Pentacles", "Sowrds", "Wands"]
 
-    if theme in tarot_config.tarot_official_themes:
+    if theme == "BilibiliTarot":
         return all_sub_types
+    
+    if theme == "TouhouTarot":
+        return ["MajorArcana"]
 
     sub_types: List[str] = [f.name for f in (
         tarot_config.tarot_path / theme).iterdir() if f.is_dir() and f.name in all_sub_types]
