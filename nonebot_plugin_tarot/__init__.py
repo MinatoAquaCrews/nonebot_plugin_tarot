@@ -6,7 +6,7 @@ from nonebot.adapters.onebot.v11 import Bot
 from nonebot.adapters.onebot.v11.event import MessageEvent, GroupMessageEvent
 from .data_source import tarot_manager
 
-__tarot_version__ = "v0.4.0"
+__tarot_version__ = "v0.4.0.post1"
 __tarot_usages__ = f'''
 塔罗牌 {__tarot_version__}
 [占卜] 随机选取牌阵进行占卜
