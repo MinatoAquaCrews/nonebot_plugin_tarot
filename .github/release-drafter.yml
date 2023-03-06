@@ -27,6 +27,6 @@ version-resolver:
 template: |
   适配b3+
 
-  Update Log
+  Update Log 23/
 
-  Changelog: [`$PREVIOUS_TAG...${{ env.TAG_NAME }}`]()
+  Changelog: [`$PREVIOUS_TAG...](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/pull/)

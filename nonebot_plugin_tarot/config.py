@@ -2,7 +2,7 @@ import nonebot
 from nonebot import logger
 from pydantic import BaseModel, Extra
 from pathlib import Path
-from typing import Set, Union
+from typing import Set, Union, List
 import httpx
 from aiocache import cached
 try:
@@ -18,6 +18,11 @@ class PluginConfig(BaseModel, extra=Extra.ignore):
     tarot_path: Path = Path(__file__).parent / "resource"
     chain_reply: bool = True
     nickname: Set[str] = {"Bot"}
+
+    '''
+        DO NOT CHANGE THIS VALUE IN ANY .ENV FILES
+    '''
+    tarot_official_themes: List[str] = ["BilibiliTarot", "TouhouTarot"]
 
 
 driver = nonebot.get_driver()
@@ -56,7 +61,7 @@ async def download_url(url: str) -> Union[httpx.Response, None]:
 
             except Exception:
                 logger.warning(
-                    f"Error occured when downloading {url}, {i+1}/3")
+                    f"Error occurred when downloading {url}, {i+1}/3")
 
     logger.warning("Abort downloading")
     return None
@@ -78,7 +83,7 @@ async def tarot_version_check() -> None:
             data = json.load(f)
             cur_version = data.get("version", 0)
 
-    url = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/tarot.json"
+    url: str = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/tarot.json"
     response = await download_url(url)
 
     if response is None:
@@ -111,7 +116,7 @@ async def get_tarot(_theme: str, _type: str, _name: str) -> Union[bytes, None]:
     logger.info(
         f"Downloading tarot image {_theme}/{_type}/{_name} from repo")
 
-    url = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/resource/" + \
+    url: str = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/resource/" + \
         f"{_theme}/{_type}/{_name}"
 
     data = await download_url(url)

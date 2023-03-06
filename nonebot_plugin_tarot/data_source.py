@@ -32,9 +32,32 @@ def chain_reply(bot: Bot,
 
 def pick_theme() -> str:
     '''
-        Return the existing themes in directory
+        Random choose a theme from the union of local & official themes
     '''
-    return random.choice([f.name for f in tarot_config.tarot_path.iterdir() if f.is_dir()])
+    sub_themes_dir: List[str] = [
+        f.name for f in tarot_config.tarot_path.iterdir() if f.is_dir()]
+
+    if len(sub_themes_dir) > 0:
+        return random.choice(list(set(sub_themes_dir).union(tarot_config.tarot_official_themes)))
+    
+    return random.choice(tarot_config.tarot_official_themes)
+
+
+def pick_sub_types(theme: str) -> List[str]:
+    '''
+        Random choose a sub type of the "theme".
+        If it is in official themes, all the sub types are available.
+    '''
+    all_sub_types: List[str] = ["MajorArcana",
+                                "Cups", "Pentacles", "Sowrds", "Wands"]
+
+    if theme in tarot_config.tarot_official_themes:
+        return all_sub_types
+
+    sub_types: List[str] = [f.name for f in (
+        tarot_config.tarot_path / theme).iterdir() if f.is_dir() and f.name in all_sub_types]
+
+    return sub_types
 
 
 class Tarot:
@@ -48,7 +71,7 @@ class Tarot:
             1. Choose a theme
             2. Open tarot.json and Random choose a formation
             3. Get the devined cards list and their text
-            4. Generate message (or chain reply)
+            4. Generate message (or chain reply if enabled)
         '''
         # 1. Pick a theme randomly
         theme: str = pick_theme()
@@ -139,15 +162,11 @@ class Tarot:
         '''
             Iterate the sub directory, get the subset of cards
         '''
-        all_sub_types: List[str] = ["MajorArcana",
-                                    "Cups", "Pentacles", "Sowrds", "Wands"]
-        sub_types: List[str] = []
+        sub_types: List[str] = pick_sub_types(theme)
 
-        # 1. Get the sub types
-        for sub in (tarot_config.tarot_path / theme).iterdir():
-            if sub.is_dir() and sub.name in all_sub_types:
-                sub_types.append(sub.name)
-
+        if len(sub_types) < 1:
+            raise ResourceError(f"本地塔罗牌主题 {theme} 为空！请检查资源！")
+        
         subset: Dict[str, Dict[str, Union[str, Dict[str, str]]]] = {
             k: v for k, v in all_cards.items() if v.get("type") in sub_types
         }
@@ -169,26 +188,26 @@ class Tarot:
         '''
         _type: str = card_info.get("type")
         _name: str = card_info.get("pic")
+        img_name: str = ""
+        img_dir: Path = tarot_config.tarot_path / theme / _type
 
-        for p in Path(tarot_config.tarot_path / theme / _type).glob(_name + ".*"):
-            img_path: Path = p
+        # Consider the suffix of pictures
+        for p in img_dir.glob(_name + ".*"):
+            img_name = p.name
 
-        if not img_path.exists():
-            official_themes: List[str] = ["BilibiliTarot", "TouhouTarot"]
-
-            # Image doesn't exist but in official repo, try to download
-            if theme in official_themes:
+        if img_name == "":
+            if theme in tarot_config.tarot_official_themes:
                 data = await get_tarot(theme, _type, _name)
                 if data is None:
-                    return False, MessageSegment.text("图片下载出错，请检查重试……")
+                    return False, MessageSegment.text("图片下载出错，请重试或将资源部署本地……")
 
                 img: Image.Image = Image.open(BytesIO(data))
-            # In user's theme, then raise ResourceError
             else:
+                # In user's theme, then raise ResourceError
                 raise ResourceError(
                     f"Tarot image {theme}/{_type}/{_name} doesn't exist! Make sure the type {_type} is complete.")
         else:
-            img: Image.Image = Image.open(img_path)
+            img: Image.Image = Image.open(img_dir / img_name)
 
         # 3. Choose up or down
         name_cn: str = card_info.get("name_cn")
