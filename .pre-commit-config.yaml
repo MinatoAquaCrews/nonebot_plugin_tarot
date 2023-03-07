@@ -13,7 +13,7 @@ repos:
         stages: [commit]
 
   - repo: https://github.com/pre-commit/mirrors-autopep8
-    rev: 2.0.2
+    rev: v2.0.2
     hooks:
       - id: autopep8
         stages: [commit]
