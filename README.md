@@ -57,6 +57,8 @@ _🔮 塔罗牌 🔮_
     CHAIN_REPLY=false
     ```
 
+	⚠ 请为塔罗牌资源分配单独的目录存放！即某一目录下仅有塔罗牌的所有资源。[#26](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/issues/26)
+
 3. 启动时，插件会自动下载repo中最新的 `tarot.json` 文件，`tarot.json` 不一定随插件版本更新；
 
 4. 图片资源可选择**不部署在本地**，插件会自动尝试从repo中下载缓存。

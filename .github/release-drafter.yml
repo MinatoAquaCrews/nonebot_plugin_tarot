@@ -29,4 +29,4 @@ template: |
 
   Update Log 23/
 
-  Changelog: [`$PREVIOUS_TAG...](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/pull/)
+  Changelog: [`$PREVIOUS_TAG...`](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/compare/$PREVIOUS_TAG...)
