@@ -1,13 +1,17 @@
-import random
-from pathlib import Path
-from typing import List, Dict, Union, Tuple
-from PIL import Image
-from io import BytesIO
 import asyncio
+import random
+from io import BytesIO
+from pathlib import Path
+from typing import Dict, List, Tuple, Union
+
 from nonebot.adapters.onebot.v11 import Bot, MessageSegment
-from nonebot.adapters.onebot.v11.event import MessageEvent, PrivateMessageEvent, GroupMessageEvent
+from nonebot.adapters.onebot.v11.event import (GroupMessageEvent, MessageEvent,
+                                               PrivateMessageEvent)
 from nonebot.matcher import Matcher
-from .config import tarot_config, get_tarot, EventsNotSupport, ResourceError
+from PIL import Image
+
+from .config import EventsNotSupport, ResourceError, get_tarot, tarot_config
+
 try:
     import ujson as json
 except ModuleNotFoundError:
@@ -39,7 +43,7 @@ def pick_theme() -> str:
 
     if len(sub_themes_dir) > 0:
         return random.choice(list(set(sub_themes_dir).union(tarot_config.tarot_official_themes)))
-    
+
     return random.choice(tarot_config.tarot_official_themes)
 
 
@@ -53,7 +57,7 @@ def pick_sub_types(theme: str) -> List[str]:
 
     if theme == "BilibiliTarot":
         return all_sub_types
-    
+
     if theme == "TouhouTarot":
         return ["MajorArcana"]
 
@@ -169,7 +173,7 @@ class Tarot:
 
         if len(sub_types) < 1:
             raise ResourceError(f"本地塔罗牌主题 {theme} 为空！请检查资源！")
-        
+
         subset: Dict[str, Dict[str, Union[str, Dict[str, str]]]] = {
             k: v for k, v in all_cards.items() if v.get("type") in sub_types
         }
