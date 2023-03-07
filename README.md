@@ -36,7 +36,7 @@ _🔮 塔罗牌 🔮_
 
 ## 序
 
-*“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符、黑猫、打翻的盐罐、驱邪、占卜、符咒、毒眼、塔罗牌、星象、水晶球、咖啡渣、手相、预兆、预言还有星座。”——《人类愚蠢辞典》*
+_“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符、黑猫、打翻的盐罐、驱邪、占卜、符咒、毒眼、塔罗牌、星象、水晶球、咖啡渣、手相、预兆、预言还有星座。”——《人类愚蠢辞典》_
 
 ## 版本
 
@@ -52,16 +52,18 @@ _🔮 塔罗牌 🔮_
 
 2. `env` 下设置 `TAROT_PATH` 以更改资源路径，`CHAIN_REPLY` 设置全局群聊转发模式（避免刷屏），亦可通过命令修改。例如：
 
-    ```python
-    TAROT_PATH="~/data/path-to-your-resource"
-    CHAIN_REPLY=false
-    ```
+   ```python
+   TAROT_PATH="~/data/path-to-your-resource"
+   CHAIN_REPLY=false
+   ```
+
+   ⚠ 请为塔罗牌资源分配单独的目录存放！即某一目录下仅有塔罗牌的所有资源。[#26](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/issues/26)
 
 3. 启动时，插件会自动下载repo中最新的 `tarot.json` 文件，`tarot.json` 不一定随插件版本更新；
 
 4. 图片资源可选择**不部署在本地**，插件会自动尝试从repo中下载缓存。
 
-    ⚠ 使用 `raw.fastgit.org` 进行下载，不确保次次成功
+   ⚠ 使用 `raw.fastgit.org` 进行下载，不确保次次成功
 
 ## 命令
 
@@ -75,32 +77,32 @@ _🔮 塔罗牌 🔮_
 
 1. 韦特塔罗(Waite Tarot)包括22张大阿卡纳(Major Arcana)牌与权杖(Wands)、星币(Pentacles)、圣杯(Cups)、宝剑(Swords)各系14张的小阿卡纳(Minor Arcana)共56张牌组成，其中国王、皇后、骑士、侍从也称为宫廷牌(Court Cards)；
 
-	- BilibiliTarot：B站幻星集主题塔罗牌
-	- TouhouTarot：东方主题塔罗牌，仅包含大阿卡纳
+   - BilibiliTarot：B站幻星集主题塔罗牌
+   - TouhouTarot：东方主题塔罗牌，仅包含大阿卡纳
 
-	⚠ 资源中额外四张王牌(Ace)不在体系中，因此不会在占卜时用到，因为小阿卡纳中各系均有Ace牌，但可以自行收藏。
+   ⚠ 资源中额外四张王牌(Ace)不在体系中，因此不会在占卜时用到，因为小阿卡纳中各系均有Ace牌，但可以自行收藏。
 
 2. `tarot.json`中对牌阵，抽牌张数、是否有切牌、各牌正逆位解读进行说明。`cards` 字段下对所有塔罗牌做了正逆位含义与资源路径的说明；
 
 3. 根据牌阵的不同有不同的塔罗牌解读，同时也与问卜者的问题、占卜者的解读等因素相关，因此不存在所谓的解读方式正确与否。`cards` 字段下的正逆位含义参考以下以及其他网络资源：
 
-    - 《棱镜/耀光塔罗牌中文翻译》，中华塔罗会馆(CNTAROT)，版权原因恕不提供
-    - [AlerHugu3s/PluginVoodoo](https://github.com/AlerHugu3s/PluginVoodoo/blob/master/data/PluginVoodoo/TarotData/Tarots.json)
-    - [塔罗.中国](https://tarotchina.net/)
-    - [塔罗牌](http://www.taluo.org/)
-    - [灵匣](https://www.lnka.cn/)
+   - 《棱镜/耀光塔罗牌中文翻译》，中华塔罗会馆(CNTAROT)，版权原因恕不提供
+   - [AlerHugu3s/PluginVoodoo](https://github.com/AlerHugu3s/PluginVoodoo/blob/master/data/PluginVoodoo/TarotData/Tarots.json)
+   - [塔罗.中国](https://tarotchina.net/)
+   - [塔罗牌](http://www.taluo.org/)
+   - [灵匣](https://www.lnka.cn/)
 
-    🤔 也可以说是作者的解读版本
+   🤔 也可以说是作者的解读版本
 
 4. 牌面资源下载：
-	
+
    - BilibiliTarot：[阿里云盘](https://www.aliyundrive.com/s/cvbxLQQ9wD5/folder/61000cc1c78a1da52ef548beb9591a01bdb09a79)
 
-		⚠ 文件夹名称、大阿卡纳恶魔牌(The Devil)名称、权杖4名称、女皇牌(The Empress)名称有修改
+     ⚠ 文件夹名称、大阿卡纳恶魔牌(The Devil)名称、权杖4名称、女皇牌(The Empress)名称有修改
 
    - TouhouTarot：[Oeeder/PluginVoodoo-Touhou](https://github.com/Oeeder/PluginVoodoo-Touhou/releases/tag/PluginVoodoo)，原作：[燕山/切り絵東方タロットカード大アルカナ22枚](https://www.pixiv.net/artworks/93632047)
 
-		⚠ 文件名称有修改
+     ⚠ 文件名称有修改
 
 ## 本插件改自
 
