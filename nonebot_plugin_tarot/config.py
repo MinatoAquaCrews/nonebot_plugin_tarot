@@ -85,7 +85,7 @@ async def tarot_version_check() -> None:
             data = json.load(f)
             cur_version = data.get("version", 0)
 
-    url: str = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/tarot.json"
+    url: str = "https://raw.fgit.ml/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/tarot.json"
     response = await download_url(url)
 
     if response is None:
@@ -118,7 +118,7 @@ async def get_tarot(_theme: str, _type: str, _name: str) -> Union[bytes, None]:
     logger.info(
         f"Downloading tarot image {_theme}/{_type}/{_name} from repo")
 
-    url: str = "https://raw.fastgit.org/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/resource/" + \
+    url: str = "https://raw.fgit.ml/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/resource/" + \
         f"{_theme}/{_type}/{_name}"
 
     data = await download_url(url)
