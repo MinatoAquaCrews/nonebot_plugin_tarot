@@ -93,7 +93,7 @@ async def tarot_version_check() -> None:
         response: Dict[str, Any] = await download_url("tarot.json", is_json=True)
     else:
         response = None
-    
+
     if response is None:
         if not tarot_json_path.exists():
             logger.warning("Tarot text resource missing! Please check!")
