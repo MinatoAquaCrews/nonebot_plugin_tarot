@@ -1,7 +1,6 @@
 categories:
   - title: 💥 Breaking changes
-    labels:
-      - breaking-change
+    label: "breaking-change"
   - title: "🚀 Features"
     labels:
       - "feature"
