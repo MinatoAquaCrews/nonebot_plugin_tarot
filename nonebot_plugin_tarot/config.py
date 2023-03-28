@@ -62,7 +62,7 @@ async def download_url(name: str, is_json: bool = False) -> Union[Dict[str, Any]
                 if response.status_code != 200:
                     continue
 
-                return response.json() if is_json else response.content()
+                return response.json() if is_json else response.content
 
             except Exception:
                 logger.warning(
