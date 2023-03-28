@@ -82,34 +82,36 @@ async def tarot_version_check() -> None:
 
     tarot_json_path: Path = Path(__file__).parent / "tarot.json"
 
-    # Auto update check on startup when tarot_auto_update is True
+    cur_version: float = 0
+    if tarot_json_path.exists():
+        with tarot_json_path.open("r", encoding="utf-8") as f:
+            data = json.load(f)
+            cur_version = data.get("version", 0)
+
+    # Auto update check on startup if TAROT_AUTO_UPDATE
     if tarot_config.tarot_auto_update:
-        cur_version: float = 0
-        if tarot_json_path.exists():
-            with tarot_json_path.open("r", encoding="utf-8") as f:
-                data = json.load(f)
-                cur_version = data.get("version", 0)
-
         response: Dict[str, Any] = await download_url("tarot.json", is_json=True)
+    else:
+        response = None
+    
+    if response is None:
+        if not tarot_json_path.exists():
+            logger.warning("Tarot text resource missing! Please check!")
+            raise ResourceError("Missing necessary resource: tarot.json!")
+    else:
+        try:
+            version: float = response.get("version", 0)
+        except KeyError:
+            logger.warning(
+                "Tarot text resource downloaded incompletely! Please check!")
+            raise DownloadError
 
-        if response is None:
-            if not tarot_json_path.exists():
-                logger.warning("Tarot text resource missing! Please check!")
-                raise ResourceError("Missing necessary resource: tarot.json!")
-        else:
-            try:
-                version: float = response.get("version", 0)
-            except KeyError:
-                logger.warning(
-                    "Tarot text resource downloaded incompletely! Please check!")
-                raise DownloadError
-
-            # Update when there is a newer version
-            if version > cur_version:
-                with tarot_json_path.open("w", encoding="utf-8") as f:
-                    json.dump(response, f, ensure_ascii=False, indent=4)
-                    logger.info(
-                        f"Updated tarot.json, version: {cur_version} -> {version}")
+        # Update when there is a newer version
+        if version > cur_version:
+            with tarot_json_path.open("w", encoding="utf-8") as f:
+                json.dump(response, f, ensure_ascii=False, indent=4)
+                logger.info(
+                    f"Updated tarot.json, version: {cur_version} -> {version}")
 
 
 @cached(ttl=180)

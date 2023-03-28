@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+  pull_request:
+    types: [opened, reopened, synchronize]
+
 permissions:
   contents: read
 
@@ -22,6 +25,9 @@ jobs:
 
       - name: Setup Poetry
         uses: Gr1N/setup-poetry@v8
+
+      - name: Update poetry.lock
+        run: poetry update --lock
 
       - run: echo "TAG_NAME=v$(poetry version -s)" >> $GITHUB_ENV
 
