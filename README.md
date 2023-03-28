@@ -7,11 +7,11 @@ _🔮 塔罗牌 🔮_
 </div>
 
 <p align="center">
-  
+
   <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/MinatoAquaCrews/nonebot_plugin_tarot?color=blue">
   </a>
-  
+
   <a href="https://github.com/nonebot/nonebot2">
     <img src="https://img.shields.io/badge/nonebot2-2.0.0b3+-green">
   </a>
@@ -31,7 +31,7 @@ _🔮 塔罗牌 🔮_
   <a href="https://results.pre-commit.ci/latest/github/MinatoAquaCrews/nonebot_plugin_tarot/master">
 	<img src="https://results.pre-commit.ci/badge/github/MinatoAquaCrews/nonebot_plugin_tarot/master.svg" alt="pre-commit.ci status">
   </a>
-  
+
 </p>
 
 ## 序
