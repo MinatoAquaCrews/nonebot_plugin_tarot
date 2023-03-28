@@ -34,7 +34,7 @@
    将其放入 `TAROT_PATH` 目录下即可。例如，以上示例，**所有的塔罗牌资源**均在 `MyTarotResource` 目录下，则设置：
 
    ```
-   TAROT_PATH="your/path/to/MyTarotResource"
+   TAROT_PATH="your-path-to-MyTarotResource"
    ```
 
    Enjoy!🥳

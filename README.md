@@ -16,7 +16,7 @@ _🔮 塔罗牌 🔮_
     <img src="https://img.shields.io/badge/nonebot2-2.0.0b3+-green">
   </a>
 
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0.post2">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0.post3">
     <img src="https://img.shields.io/github/v/release/MinatoAquaCrews/nonebot_plugin_tarot?color=orange">
   </a>
 
@@ -40,7 +40,7 @@ _“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符�
 
 ## 版本
 
-💥 [v0.4.0.post2](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0.post2)
+🧰 [v0.4.0.post3](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0.post3)
 
 ⚠ 适配nonebot2-2.0.0b3+
 

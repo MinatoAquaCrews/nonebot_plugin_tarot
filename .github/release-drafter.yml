@@ -29,8 +29,8 @@ version-resolver:
   default: patch
 
 template: |
-  适配b3+
+  ## What’s Changed
 
-  Update Log 23/
+  $CHANGES
 
   Changelog: [`$PREVIOUS_TAG...`](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/compare/$PREVIOUS_TAG...)
