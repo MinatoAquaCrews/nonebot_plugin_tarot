@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "nonebot_plugin_tarot"
-version = "0.4.0.post1"
+version = "0.4.0.post2"
 description = "Tarot divination!"
 authors = ["KafCoppelia <k740677208@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/MinatoAquaCrews/nonebot_plugin_tarot"
-keywords = ["nonebot2", "nonebot-plugin", "Tarot"]
+keywords = ["nonebot2", "nonebot-plugin", "Tarot", "MinatoAquaCrews"]
 packages = [{include = "nonebot_plugin_tarot"}]
 exclude = ["nonebot_plugin_tarot/resource"]
 
@@ -29,3 +29,4 @@ build-backend = "poetry.core.masonry.api"
 name = "tencentyun"
 url = "https://mirrors.tencent.com/pypi/simple"
 default = false
+secondary = false
