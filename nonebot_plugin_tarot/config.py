@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List, Set, Union, Dict, Any
+from typing import Any, Dict, List, Set, Union
 
 import httpx
 import nonebot
