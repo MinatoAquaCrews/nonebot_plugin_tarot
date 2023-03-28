@@ -10,7 +10,7 @@ from nonebot.adapters.onebot.v11.event import (GroupMessageEvent, MessageEvent,
 from nonebot.matcher import Matcher
 from PIL import Image
 
-from .config import EventsNotSupport, ResourceError, get_tarot, tarot_config
+from .config import EventNotSupport, ResourceError, get_tarot, tarot_config
 
 try:
     import ujson as json
@@ -132,7 +132,7 @@ class Tarot:
                     else:
                         await matcher.finish(msg_header + msg_body)
             else:
-                raise EventsNotSupport
+                raise EventNotSupport
 
         if self.is_chain_reply:
             await bot.send_group_forward_msg(group_id=event.group_id, messages=chain)

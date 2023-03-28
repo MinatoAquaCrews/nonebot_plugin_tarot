@@ -16,7 +16,7 @@ _🔮 塔罗牌 🔮_
     <img src="https://img.shields.io/badge/nonebot2-2.0.0b3+-green">
   </a>
   
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0.post1">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0.post2">
     <img src="https://img.shields.io/github/v/release/MinatoAquaCrews/nonebot_plugin_tarot?color=orange">
   </a>
 
@@ -40,7 +40,7 @@ _“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符�
 
 ## 版本
 
-💥 [v0.4.0.post1](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0.post1)
+💥 [v0.4.0.post2](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0.post2)
 
 ⚠ 适配nonebot2-2.0.0b3+
 
@@ -50,11 +50,12 @@ _“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符�
 
 1. 通过 `pip` 或 `nb` 安装。pypi无法发行过大安装包，由此安装的插件不包含 `./resource` 下**所有塔罗牌主题资源**。请在[v0.4.0 release](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0)页面下载各主题资源，部署至本地后修改 `TAROT_PATH` 配置即可；
 
-2. `env` 下设置 `TAROT_PATH` 以更改资源路径，`CHAIN_REPLY` 设置全局群聊转发模式（避免刷屏），亦可通过命令修改。例如：
+2. `env` 下设置 `TAROT_PATH` 以更改资源路径；`CHAIN_REPLY` 设置全局群聊转发模式（避免刷屏），亦可通过命令修改；`TAROT_AUTO_UPDATE` 开启则插件将在启动时自动检查更新（默认关闭）。例如：
 
    ```python
-   TAROT_PATH="~/data/path-to-your-resource"
+   TAROT_PATH="path-to-your-resource"
    CHAIN_REPLY=false
+   TAROT_AUTO_UPDATE=false
    ```
 
    ⚠ 请为塔罗牌资源分配单独的目录存放！即某一目录下仅有塔罗牌的所有资源。[#26](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/issues/26)
@@ -63,7 +64,7 @@ _“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符�
 
 4. 图片资源可选择**不部署在本地**，插件会自动尝试从repo中下载缓存。
 
-   ⚠ 使用 `raw.fastgit.org` 进行下载，不确保次次成功
+   ⚠ 使用 `raw.fgit.ml` 进行下载，不确保次次成功
 
 ## 命令
 
