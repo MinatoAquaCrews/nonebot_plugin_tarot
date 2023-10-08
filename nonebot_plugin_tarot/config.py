@@ -53,7 +53,7 @@ class EventNotSupport(Exception):
 
 
 async def download_url(name: str, is_json: bool = False) -> Union[Dict[str, Any], bytes, None]:
-    url: str = "https://raw.fgit.ml/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/" + name
+    url: str = "https://raw.fgit.cf/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/" + name
 
     async with httpx.AsyncClient() as client:
         for i in range(3):
