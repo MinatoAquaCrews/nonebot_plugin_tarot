@@ -1,13 +1,22 @@
 from nonebot import on_command, on_regex
+from nonebot import require
+
 from nonebot.adapters.onebot.v11 import Bot
-from nonebot.adapters.onebot.v11.event import GroupMessageEvent, MessageEvent
+from nonebot.adapters.onebot.v11.event import (
+    GroupMessageEvent,
+    MessageEvent,
+    PrivateMessageEvent,
+)
 from nonebot.matcher import Matcher
 from nonebot.permission import SUPERUSER
 from nonebot.plugin import PluginMetadata
 
+require("nonebot_plugin_localstore")  # isort:skip
+
+from .config import PluginConfig
 from .data_source import tarot_manager
 
-__plugin_version__ = "v0.4.1a1"
+__plugin_version__ = "v0.5.0a1"
 __plugin_usages__ = f"""
 塔罗牌 {__plugin_version__}
 [占卜] 随机选取牌阵进行占卜
@@ -20,6 +29,7 @@ __plugin_meta__ = PluginMetadata(
     usage=__plugin_usages__,
     type="application",
     homepage="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot",
+    config=PluginConfig,
     extra={
         "author": "KafCoppelia <k740677208@gmail.com>",
         "version": __plugin_version__,
@@ -35,13 +45,27 @@ chain_reply_switch = on_regex(
 
 
 @divine.handle()
-async def general_divine(bot: Bot, matcher: Matcher, event: MessageEvent) -> None:
+async def general_divine_in_group(
+    bot: Bot, matcher: Matcher, event: GroupMessageEvent
+) -> None:
     arg = event.get_plaintext()
 
     if "帮助" in arg[-2:]:
         await matcher.finish(__plugin_usages__)
 
-    await tarot_manager.divine(bot, matcher, event)
+    await tarot_manager.divine_in_group(bot, matcher, event.group_id)
+
+
+@divine.handle()
+async def general_divine_in_private(
+    matcher: Matcher, event: PrivateMessageEvent
+) -> None:
+    arg = event.get_plaintext()
+
+    if "帮助" in arg[-2:]:
+        await matcher.finish(__plugin_usages__)
+
+    await tarot_manager.divine_in_private(matcher)
 
 
 @tarot.handle()

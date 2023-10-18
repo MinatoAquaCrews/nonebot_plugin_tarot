@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot_plugin_tarot"
-version = "0.4.1a1"
+version = "v0.5.0a1"
 description = "Tarot divination!"
 authors = ["KafCoppelia <k740677208@gmail.com>"]
 license = "MIT"
@@ -17,6 +17,16 @@ nonebot-adapter-onebot = "^2.2.0"
 pillow = "^9.0.0"
 aiocache = "^0.11.1"
 httpx = "^0.23.0"
+nonebot-plugin-localstore = "^0.5.1"
+
+[tool.poetry.group.dev.dependencies]
+nonebug = "^0.3.5"
+pytest-asyncio = "^0.21.1"
+nonebot-adapter-console = "^0.4.0"
+
+[tool.nonebot]
+plugins = ["nonebot_plugin_tarot"]
+plugin_dirs = []
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
