@@ -29,5 +29,4 @@ jobs:
         with:
           python_version: "3.10"
           pypi_token: ${{ secrets.PYPI_API_TOKEN }}
-          build_format: "wheel"
           ignore_dev_requirements: "yes"
