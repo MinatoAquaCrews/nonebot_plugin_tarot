@@ -52,7 +52,8 @@ class ResourceError(Exception):
 
 async def download_url(name: str) -> Optional[httpx.Response]:
     url: str = (
-        "https://raw.fgit.cf/MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/"
+        "https://ghproxy.com/https://raw.githubusercontent.com/"
+        + "MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/"
         + name
     )
 
@@ -106,13 +107,15 @@ async def tarot_config_check() -> None:
 
 
 @cached(ttl=180)
-async def get_tarot(theme: str, type: str, name: str) -> Optional[bytes]:
+async def download_tarot(
+    theme: str, type: str, name: str, name_with_suffix: str
+) -> Optional[bytes]:
     """Download the image and cache it for a while. \
         If failed, return None.
     """
     logger.info(f"Downloading image {theme}/{type}/{name} from repo...")
 
-    resource = f"resource/{theme}/{type}/{name}"
+    resource = f"resource/{theme}/{type}/{name_with_suffix}"
     response = await download_url(resource)
 
     if not response:
