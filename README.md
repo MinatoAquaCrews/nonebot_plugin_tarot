@@ -16,7 +16,7 @@ _🔮 塔罗牌 🔮_
     <img src="https://img.shields.io/badge/nonebot2-2.0.0+-green">
   </a>
 
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.5.0a1">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.5.0a2">
     <img src="https://img.shields.io/github/v/release/MinatoAquaCrews/nonebot_plugin_tarot?color=orange">
   </a>
 
@@ -40,7 +40,7 @@ _“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符�
 
 ## 版本
 
-🧰 [v0.5.0a1](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.5.0a1)
+🧰 [v0.5.0a2](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.5.0a2)
 
 ⚠ 适配nonebot2-2.0.0+
 
@@ -102,7 +102,7 @@ _“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符�
      └ ……
    ```
 
-   ⚠ 使用 `raw.fgit.cf` 下载仓库提供的主题，不确保次次成功
+   ⚠ 使用 `ghproxy.com` 下载仓库提供的主题，不确保次次成功
    
    👉 [如何添加新的塔罗牌主题资源？](./How-to-add-new-tarot-theme.md) 欢迎贡献！🙏
 
