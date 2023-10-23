@@ -16,7 +16,7 @@ require("nonebot_plugin_localstore")  # isort:skip
 from .config import PluginConfig
 from .data_source import tarot_manager
 
-__plugin_version__ = "v0.5.0a1"
+__plugin_version__ = "v0.5.0a2"
 __plugin_usages__ = f"""
 塔罗牌 {__plugin_version__}
 [占卜] 随机选取牌阵进行占卜
@@ -75,7 +75,7 @@ async def _(matcher: Matcher, event: MessageEvent):
     if "帮助" in arg[-2:]:
         await matcher.finish(__plugin_usages__)
 
-    msg = await tarot_manager.onetime_divine()
+    msg = await tarot_manager.get_one_tarot()
     await matcher.finish(msg)
 
 

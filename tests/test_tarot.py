@@ -121,7 +121,7 @@ def _get_divination_info() -> Tuple[DivinationInfo, str]:
     return DivinationInfo(theme, cards_info, is_cut, representations), formation_name
 
 
-def test_onetime_devine():
+def test_get_one_tarot():
     """One-time divination."""
     # 1. Pick a theme randomly.
     theme = _select_theme()
@@ -143,6 +143,7 @@ def test_onetime_devine():
     # Consider the suffix of pictures, `.png` or `.jpg`, etc.
     for p in img_dir.glob(_name + ".*"):
         img_name = p.name
+        break
 
     assert img_name != ""
 
@@ -153,6 +154,7 @@ def test_onetime_devine():
     # Consider the suffix of pictures, `.png` or `.jpg`, etc.
     for p in img_dir.glob(_name + ".*"):
         img_name = p.name
+        break
 
     assert img_name == ""
 

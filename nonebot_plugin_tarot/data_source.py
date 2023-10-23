@@ -13,7 +13,7 @@ try:
 except ModuleNotFoundError:
     import json
 
-from .config import get_tarot, ResourceError, tarot_config
+from .config import download_tarot, ResourceError, tarot_config
 
 CardInfoType = Dict[str, Union[str, Dict[str, str]]]
 FormationInfoType = Dict[str, Dict[str, Union[int, bool, List[List[str]]]]]
@@ -142,8 +142,8 @@ class Tarot:
             else:
                 await matcher.finish(msg_header + msg_body)
 
-    async def onetime_divine(self) -> Message:
-        """One-time divination."""
+    async def get_one_tarot(self) -> Message:
+        """Get one tarot."""
         # 1. Pick a theme randomly.
         theme = self._select_theme()
 
@@ -228,20 +228,21 @@ class Tarot:
     async def _get_text_and_image(
         self, theme: str, card_info: CardInfoType
     ) -> Tuple[bool, Message]:
-        """Get the tarot image & text based on `card_info`."""
+        """Get the tarot image & text based on theme & `card_info`."""
         _type: str = card_info.get("type")  # type: ignore
         _name: str = card_info.get("pic")  # type: ignore
         img_dir = tarot_config.tarot_path / theme / _type
-        img_name = ""
+        img_with_suffix = ""
 
-        # Consider the suffix of pictures, `.png` or `.jpg`, etc.
+        # Consider the suffix of picture, such as `.png` or `.jpg`.
         for p in img_dir.glob(_name + ".*"):
-            img_name = p.name
+            img_with_suffix = p.name
+            break
 
-        if img_name == "":
-            # Not found in local directory, try to download from repo.
+        if img_with_suffix == "":
+            # Not found in the local directory, so try to download from repo.
             if theme in TAROT_THEMES_IN_REPO:
-                data = await get_tarot(theme, _type, _name)
+                data = await download_tarot(theme, _type, _name, img_with_suffix)
                 if data is None:
                     return False, Message(MessageSegment.text("图片下载出错，请重试或将资源部署本地……"))
 
@@ -252,7 +253,7 @@ class Tarot:
                     f"图片 {theme}/{_type}/{_name} 不存在！请确保自定义塔罗牌图片资源完整。"
                 )
         else:
-            img = Image.open(img_dir / img_name)
+            img = Image.open(img_dir / img_with_suffix)
 
         # Select whether the card is upright or reversed.
         name_cn: str = card_info.get("name_cn")  # type: ignore
