@@ -1,6 +1,4 @@
-from nonebot import on_command, on_regex
-from nonebot import require
-
+from nonebot import on_command, on_regex, require
 from nonebot.adapters.onebot.v11 import Bot
 from nonebot.adapters.onebot.v11.event import (
     GroupMessageEvent,

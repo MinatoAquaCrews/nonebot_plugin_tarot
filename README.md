@@ -48,7 +48,7 @@ _“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符�
 
 1. 安装方式
    - 通过 `pip` 或 `nb-cli` 安装。pypi无法发行过大安装包，由此安装的插件不包含 `./resource` 下提供的塔罗牌主题资源。仓库提供了两种塔罗牌主题，可在 [v0.4.0 release](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.4.0) Assets下载，部署至本地后修改 `TAROT_PATH` 配置即可；
-    
+
    - 通过 `zip` 或 `git clone` 安装：包含 `resource` 下所有塔罗牌主题资源；
 
 2. `CHAIN_REPLY` 设置全局群聊转发模式（避免刷屏），可通过命令开启或关闭，默认开启；
@@ -103,7 +103,7 @@ _“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符�
    ```
 
    ⚠ 使用 `ghproxy.com` 下载仓库提供的主题，不确保次次成功
-   
+
    👉 [如何添加新的塔罗牌主题资源？](./How-to-add-new-tarot-theme.md) 欢迎贡献！🙏
 
 ## 命令

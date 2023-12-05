@@ -1,6 +1,5 @@
-import pytest
 import nonebot
-
+import pytest
 from nonebot.adapters.console import Adapter as ConsoleAdapter
 
 
@@ -9,4 +8,3 @@ def load_bot() -> None:
     driver = nonebot.get_driver()
     driver.register_adapter(ConsoleAdapter)
     nonebot.load_plugin("nonebot_plugin_tarot")
-
