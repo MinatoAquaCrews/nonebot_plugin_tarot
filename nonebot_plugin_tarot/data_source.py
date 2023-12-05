@@ -2,18 +2,20 @@ import asyncio
 import random
 from dataclasses import dataclass
 from io import BytesIO
-from nonebot.adapters.onebot.v11 import Bot as Bot, Message, MessageSegment
-from nonebot.matcher import Matcher
 from pathlib import Path
-from PIL import Image
 from typing import Any, Dict, List, Tuple, Union
+
+from nonebot.adapters.onebot.v11 import Bot as Bot
+from nonebot.adapters.onebot.v11 import Message, MessageSegment
+from nonebot.matcher import Matcher
+from PIL import Image
 
 try:
     import ujson as json  # type: ignore
 except ModuleNotFoundError:
     import json
 
-from .config import download_tarot, ResourceError, tarot_config
+from .config import ResourceError, download_tarot, tarot_config
 
 CardInfoType = Dict[str, Union[str, Dict[str, str]]]
 FormationInfoType = Dict[str, Dict[str, Union[int, bool, List[List[str]]]]]

@@ -1,9 +1,10 @@
 import random
-import pytest
-from nonebug import App
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Tuple, Union
+
+import pytest
+from nonebug import App
 
 try:
     import ujson as json  # type: ignore
