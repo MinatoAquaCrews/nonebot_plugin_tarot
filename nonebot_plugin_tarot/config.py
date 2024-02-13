@@ -37,6 +37,7 @@ class TarotConfig(BaseModel):
 driver = nonebot.get_driver()
 if hasattr(nonebot, "get_plugin_config"):  # compatible with lower versions
     from nonebot import get_plugin_config
+
     tarot_config: TarotConfig = get_plugin_config(TarotConfig)
 else:
     tarot_config: TarotConfig = TarotConfig.parse_obj(

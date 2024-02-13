@@ -1,8 +1,6 @@
 from typing import NoReturn
 from nonebot import on_command, on_regex, require
-
 from nonebot.adapters import Event
-from nonebot.adapters.onebot.v11 import Bot
 from nonebot.permission import SUPERUSER
 from nonebot.plugin import PluginMetadata, inherit_supported_adapters
 from nonebot.params import Depends
@@ -16,7 +14,7 @@ from nonebot_plugin_saa import MessageFactory, PlatformTarget, get_target
 from .config import TarotConfig
 from .data_source import tarot_manager
 
-__plugin_version__ = "v0.5.0a4"
+__plugin_version__ = "v0.5.0a5"
 __plugin_usages__ = f"""
 塔罗牌 {__plugin_version__}
 [占卜] 随机选取牌阵进行占卜
@@ -55,9 +53,7 @@ chain_reply_switch = on_regex(
 
 @divine.handle()
 async def general_divine(
-    bot: Bot,
-    event: Event,
-    target: PlatformTarget = Depends(get_target),
+    event: Event, target: PlatformTarget = Depends(get_target)
 ) -> None:
     arg = event.get_plaintext()
 
@@ -65,7 +61,7 @@ async def general_divine(
         await MessageFactory(__plugin_usages__).finish()
 
     if _is_group_event(event):
-        await tarot_manager.divine_in_group(bot, target, event.group_id)  # type: ignore
+        await tarot_manager.divine_in_group(target)
     else:
         await tarot_manager.divine_in_private()
 

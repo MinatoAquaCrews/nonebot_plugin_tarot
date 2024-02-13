@@ -3,8 +3,7 @@ import random
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import Any, Dict, List, Tuple, Union
-from nonebot.adapters.onebot.v11 import Bot as Bot
+from typing import Dict, List, Tuple, Union
 from PIL import Image
 
 try:
@@ -14,6 +13,7 @@ except ModuleNotFoundError:
 
 from .config import download_tarot, ResourceError, tarot_config
 from nonebot_plugin_saa import (
+    AggregatedMessageFactory,
     MessageFactory,
     PlatformTarget,
     TargetQQGroup,
@@ -31,22 +31,6 @@ TAROT_THEMES_IN_REPO = ["BilibiliTarot", "TouhouTarot"]
 """Themes in the repository. DO NOT EDIT!"""
 
 TAROT_SUBCATEGORIES = ["MajorArcana", "Cups", "Pentacles", "Sowrds", "Wands"]
-
-
-def chain_reply(
-    bot: Bot,
-    chain: List[Dict[str, Any]],
-    msg: MessageFactory,
-) -> None:
-    data = {
-        "type": "node",
-        "data": {
-            "name": list(tarot_config.nickname)[0],
-            "uin": bot.self_id,
-            "content": str(msg),
-        },
-    }
-    chain.append(data)
 
 
 def subcategories(theme: str) -> List[str]:
@@ -88,9 +72,7 @@ class Tarot:
 
         self.avail_themes = avail_themes
 
-    async def divine_in_group(
-        self, bot: Bot, target: PlatformTarget, group_id: int
-    ) -> None:
+    async def divine_in_group(self, target: PlatformTarget) -> None:
         info, formation_name = self._get_divination_info()
 
         await MessageFactory(f"启用{formation_name}，正在洗牌中").send()
@@ -113,7 +95,7 @@ class Tarot:
                 await MessageFactory(msg_body).finish()
 
             if self.is_chain_reply and isinstance(target, TargetQQGroup):
-                chain_reply(bot, chain, msg_header + msg_body)
+                chain.append(msg_header + msg_body)
             else:
                 if i < n - 1:
                     # await matcher.send(msg_header + msg_body)
@@ -123,9 +105,8 @@ class Tarot:
                     await MessageFactory(msg_header + msg_body).finish()
 
         if self.is_chain_reply and isinstance(target, TargetQQGroup):
-            await bot.call_api(
-                "send_group_forward_msg", group_id=group_id, messages=chain
-            )
+            amf = AggregatedMessageFactory(chain)
+            await amf.finish()
 
     async def divine_in_private(self) -> None:
         info, formation_name = self._get_divination_info()
