@@ -7,19 +7,19 @@ ci:
   autoupdate_commit_msg: ":arrow_up: auto update by pre-commit hooks"
 repos:
   - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+    rev: 5.13.2
     hooks:
       - id: isort
         stages: [commit]
 
   - repo: https://github.com/psf/black
-    rev: 23.10.1
+    rev: 24.1.1
     hooks:
       - id: black
         stages: [commit]
 
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v4.0.0-alpha.3
+    rev: v4.0.0-alpha.8
     hooks:
       - id: prettier
         types_or: [markdown, yaml, json]
@@ -36,7 +36,7 @@ repos:
       - id: check-json
 
   - repo: https://github.com/python-poetry/poetry
-    rev: 1.6.1
+    rev: 1.7.0
     hooks:
       - id: poetry-check
       - id: poetry-lock
