@@ -16,7 +16,7 @@ _🔮 塔罗牌 🔮_
     <img src="https://img.shields.io/badge/OneBot-v11-black?style=social&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAIVBMVEUAAAAAAAADAwMHBwceHh4UFBQNDQ0ZGRkoKCgvLy8iIiLWSdWYAAAAAXRSTlMAQObYZgAAAQVJREFUSMftlM0RgjAQhV+0ATYK6i1Xb+iMd0qgBEqgBEuwBOxU2QDKsjvojQPvkJ/ZL5sXkgWrFirK4MibYUdE3OR2nEpuKz1/q8CdNxNQgthZCXYVLjyoDQftaKuniHHWRnPh2GCUetR2/9HsMAXyUT4/3UHwtQT2AggSCGKeSAsFnxBIOuAggdh3AKTL7pDuCyABcMb0aQP7aM4AnAbc/wHwA5D2wDHTTe56gIIOUA/4YYV2e1sg713PXdZJAuncdZMAGkAukU9OAn40O849+0ornPwT93rphWF0mgAbauUrEOthlX8Zu7P5A6kZyKCJy75hhw1Mgr9RAUvX7A3csGqZegEdniCx30c3agAAAABJRU5ErkJggg==" alt="onebot">
   </a>
 
-  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.5.0a3">
+  <a href="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.5.0a4">
     <img src="https://img.shields.io/github/v/release/MinatoAquaCrews/nonebot_plugin_tarot?color=orange">
   </a>
 
@@ -29,10 +29,8 @@ _🔮 塔罗牌 🔮_
   </a>
 
   <a href="https://results.pre-commit.ci/latest/github/MinatoAquaCrews/nonebot_plugin_tarot/master">
-	<img src="https://results.pre-commit.ci/badge/github/MinatoAquaCrews/nonebot_plugin_tarot/master.svg" alt="pre-commit.ci status">
+	  <img src="https://results.pre-commit.ci/badge/github/MinatoAquaCrews/nonebot_plugin_tarot/master.svg" alt="pre-commit.ci status">
   </a>
-
-</p>
 
 ## 序
 
@@ -40,7 +38,7 @@ _“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符�
 
 ## 版本
 
-🧰 [v0.5.0a3](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.5.0a3)
+🧰 [v0.5.0a4](https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/releases/tag/v0.5.0a4)
 
 ⚠ 适配nonebot2-2.0.0+
 
@@ -75,24 +73,25 @@ _“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符�
    TAROT_BUILTIN_THEME_ENABLED=false
    TAROT_EXTRA_THEMES=[]
 
-   # 正确！仅使用插件内置主题BilibiliTarot
+   # 正确！仅使用插件内置主题 BilibiliTarot
    TAROT_BUILTIN_THEME_ENABLED=true
    TAROT_EXTRA_THEMES=[]
 
-   # 正确！仅使用用户提供的主题MyTarotTheme
+   # 正确！仅使用用户提供的主题 MyTarotTheme
    TAROT_BUILTIN_THEME_ENABLED=false
    TAROT_EXTRA_THEMES=["MyTarotTheme"]
 
-   # 正确！使用插件内置主题BilibiliTarot与额外的主题TouhouTarot
+   # 正确！使用插件内置主题 BilibiliTarot 与额外的主题 TouhouTarot
    TAROT_BUILTIN_THEME_ENABLED=true
    TAROT_EXTRA_THEMES=["TouhouTarot"]
    ```
 
-5. 图片资源可选择**不部署在本地**，此时，如果所需主题为仓库提供的两种主题之一，则会尝试下载并缓存。此外，用户也可以添加自己的塔罗牌主题。配置项 `TAROT_EXTRA_THEMES` 用以添加本地部署的自定义主题。例如，用户额外添加了两个主题，则对应目录结构为：
+5. 图片资源可选择**不部署在本地**，此时，如果所需主题为仓库提供的两种主题之一，则会尝试下载并缓存（可配置代理 `GITHUB_PROXY` ）。此外，用户也可以添加自己的塔罗牌主题。配置项 `TAROT_EXTRA_THEMES` 用以添加本地部署的自定义主题。例如，用户额外添加了两个主题，则对应目录结构为：
 
    ```toml
    TAROT_PATH="path-to-MyTarotResource"
    TAROT_EXTRA_THEMES=["MyTarotTheme1", "MyTarotTheme2"]
+   GITHUB_PROXY="https://ghproxy.com/https://raw.githubusercontent.com/" # 或者其他代理
    ```
    ```
    MyTarotResource
@@ -102,8 +101,8 @@ _“许多傻瓜对千奇百怪的迷信说法深信不疑：象牙、护身符�
      └ ……
    ```
 
-   ⚠ 使用 `ghproxy.com` 下载仓库提供的主题，不确保次次成功
-
+   ⚠ 默认使用 `ghproxy.com` 下载仓库内资源，不确保次次成功
+   
    👉 [如何添加新的塔罗牌主题资源？](./How-to-add-new-tarot-theme.md) 欢迎贡献！🙏
 
 ## 命令
