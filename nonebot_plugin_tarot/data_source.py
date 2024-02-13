@@ -4,10 +4,7 @@ from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
 from typing import Any, Dict, List, Tuple, Union
-
 from nonebot.adapters.onebot.v11 import Bot as Bot
-from nonebot.adapters.onebot.v11 import Message, MessageSegment
-from nonebot.matcher import Matcher
 from PIL import Image
 
 try:
@@ -15,7 +12,14 @@ try:
 except ModuleNotFoundError:
     import json
 
-from .config import ResourceError, download_tarot, tarot_config
+from .config import download_tarot, ResourceError, tarot_config
+from nonebot_plugin_saa import (
+    MessageFactory,
+    PlatformTarget,
+    TargetQQGroup,
+    Text,
+    Image as MessageImage,
+)
 
 CardInfoType = Dict[str, Union[str, Dict[str, str]]]
 FormationInfoType = Dict[str, Dict[str, Union[int, bool, List[List[str]]]]]
@@ -32,14 +36,14 @@ TAROT_SUBCATEGORIES = ["MajorArcana", "Cups", "Pentacles", "Sowrds", "Wands"]
 def chain_reply(
     bot: Bot,
     chain: List[Dict[str, Any]],
-    msg: Message,
+    msg: MessageFactory,
 ) -> None:
     data = {
         "type": "node",
         "data": {
             "name": list(tarot_config.nickname)[0],
             "uin": bot.self_id,
-            "content": msg,
+            "content": str(msg),
         },
     }
     chain.append(data)
@@ -65,8 +69,7 @@ class DivinationInfo:
     theme: str
     cards_info: List[CardInfoType]
     is_cut: bool
-    rep: List[List[str]]
-    """Representations"""
+    rep: List[List[str]]  # representations
 
     @property
     def n_cards(self) -> int:
@@ -85,9 +88,12 @@ class Tarot:
 
         self.avail_themes = avail_themes
 
-    async def divine_in_group(self, bot: Bot, matcher: Matcher, group_id: int) -> None:
+    async def divine_in_group(
+        self, bot: Bot, target: PlatformTarget, group_id: int
+    ) -> None:
         info, formation_name = self._get_divination_info()
-        await matcher.send(f"启用{formation_name}，正在洗牌中")
+
+        await MessageFactory(f"启用{formation_name}，正在洗牌中").send()
 
         # Generate messages.
         chain = []
@@ -96,55 +102,59 @@ class Tarot:
         for i in range(n):
             # Select the #i tarot.
             if info.is_cut and i == n - 1:
-                msg_header = MessageSegment.text(f"切牌「{info.rep[i]}」\n")
+                msg_header = Text(f"切牌「{info.rep[i]}」\n")
             else:
-                msg_header = MessageSegment.text(f"第{i+1}张牌「{info.rep[i]}」\n")
+                msg_header = Text(f"第{i+1}张牌「{info.rep[i]}」\n")
 
             flag, msg_body = await self._get_text_and_image(
                 info.theme, info.cards_info[i]
             )
             if not flag:
-                await matcher.finish(msg_body)
+                await MessageFactory(msg_body).finish()
 
-            if self.is_chain_reply:
+            if self.is_chain_reply and isinstance(target, TargetQQGroup):
                 chain_reply(bot, chain, msg_header + msg_body)
             else:
                 if i < n - 1:
-                    await matcher.send(msg_header + msg_body)
+                    # await matcher.send(msg_header + msg_body)
+                    await MessageFactory(msg_header + msg_body).send()
                     await asyncio.sleep(0.5)  # In case of frequency sending
                 else:
-                    await matcher.finish(msg_header + msg_body)
+                    await MessageFactory(msg_header + msg_body).finish()
 
-        if self.is_chain_reply:
+        if self.is_chain_reply and isinstance(target, TargetQQGroup):
             await bot.call_api(
                 "send_group_forward_msg", group_id=group_id, messages=chain
             )
 
-    async def divine_in_private(self, matcher: Matcher) -> None:
+    async def divine_in_private(self) -> None:
         info, formation_name = self._get_divination_info()
-        await matcher.send(f"启用{formation_name}，正在洗牌中")
+
+        await MessageFactory(f"启用{formation_name}，正在洗牌中").send()
+        # await matcher.send(f"启用{formation_name}，正在洗牌中")
 
         # Generate messages.
         n = info.n_cards
         for i in range(n):
             # Select the #i tarot.
             if info.is_cut and i == n - 1:
-                msg_header = MessageSegment.text(f"切牌「{info.rep[i]}」\n")
+                msg_header = Text(f"切牌「{info.rep[i]}」\n")
             else:
-                msg_header = MessageSegment.text(f"第{i+1}张牌「{info.rep[i]}」\n")
+                msg_header = Text(f"第{i+1}张牌「{info.rep[i]}」\n")
 
             flag, msg_body = await self._get_text_and_image(
                 info.theme, info.cards_info[i]
             )
             if not flag:
-                await matcher.finish(msg_body)
+                await MessageFactory(msg_body).finish()
 
             if i < n:
-                await matcher.send(msg_header + msg_body)
+                await MessageFactory(msg_header + msg_body).send()
+                # await matcher.send(msg_header + msg_body)
             else:
-                await matcher.finish(msg_header + msg_body)
+                await MessageFactory(msg_header + msg_body).finish()
 
-    async def get_one_tarot(self) -> Message:
+    async def get_one_tarot(self) -> MessageFactory:
         """Get one tarot."""
         # 1. Pick a theme randomly.
         theme = self._select_theme()
@@ -155,7 +165,7 @@ class Tarot:
         # 3. Get the text & image.
         flag, body = await self._get_text_and_image(theme, card_info[0])
 
-        return "回应是" + body if flag else Message(body)
+        return "回应是" + body if flag else body
 
     def _get_divination_info(self) -> Tuple[DivinationInfo, str]:
         """Get divination information.
@@ -229,7 +239,7 @@ class Tarot:
 
     async def _get_text_and_image(
         self, theme: str, card_info: CardInfoType
-    ) -> Tuple[bool, Message]:
+    ) -> Tuple[bool, MessageFactory]:
         """Get the tarot image & text based on theme & `card_info`."""
         _type: str = card_info.get("type")  # type: ignore
         _name: str = card_info.get("pic")  # type: ignore
@@ -246,7 +256,9 @@ class Tarot:
             if theme in TAROT_THEMES_IN_REPO:
                 data = await download_tarot(theme, _type, _name, img_with_suffix)
                 if data is None:
-                    return False, Message(MessageSegment.text("图片下载出错，请重试或将资源部署本地……"))
+                    return False, MessageFactory(
+                        Text("图片下载出错，请重试或将资源部署本地……")
+                    )
 
                 img = Image.open(data)
             else:
@@ -261,16 +273,16 @@ class Tarot:
         name_cn: str = card_info.get("name_cn")  # type: ignore
         if random.random() < 0.5:
             meaning: str = card_info.get("meaning").get("up")  # type: ignore
-            msg = MessageSegment.text(f"「{name_cn}正位」「{meaning}」\n")
+            msg = Text(f"「{name_cn}正位」「{meaning}」\n")
         else:
             meaning: str = card_info.get("meaning").get("down")  # type: ignore
-            msg = MessageSegment.text(f"「{name_cn}逆位」「{meaning}」\n")
+            msg = Text(f"「{name_cn}逆位」「{meaning}」\n")
             img = img.rotate(180)
 
         buf = BytesIO()
         img.save(buf, format="png")
 
-        return True, msg + MessageSegment.image(buf)
+        return True, MessageFactory([msg, MessageImage(buf)])
 
     @property
     def is_chain_reply(self) -> bool:

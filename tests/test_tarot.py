@@ -13,7 +13,7 @@ except ModuleNotFoundError:
 
 
 @pytest.mark.asyncio
-async def test_roll_legal(app: App):
+async def test_tarot_config_import(app: App):
     from nonebot_plugin_tarot.config import tarot_config
 
     print(tarot_config.tarot_path)

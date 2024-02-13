@@ -1,20 +1,22 @@
+from typing import NoReturn
 from nonebot import on_command, on_regex, require
+
+from nonebot.adapters import Event
 from nonebot.adapters.onebot.v11 import Bot
-from nonebot.adapters.onebot.v11.event import (
-    GroupMessageEvent,
-    MessageEvent,
-    PrivateMessageEvent,
-)
-from nonebot.matcher import Matcher
 from nonebot.permission import SUPERUSER
-from nonebot.plugin import PluginMetadata
+from nonebot.plugin import PluginMetadata, inherit_supported_adapters
+from nonebot.params import Depends
+from nonebot.rule import Rule
 
 require("nonebot_plugin_localstore")  # isort:skip
+require("nonebot_plugin_saa")  # isort:skip
 
-from .config import PluginConfig
+from nonebot_plugin_saa import MessageFactory, PlatformTarget, get_target
+
+from .config import TarotConfig
 from .data_source import tarot_manager
 
-__plugin_version__ = "v0.5.0a3"
+__plugin_version__ = "v0.5.0a4"
 __plugin_usages__ = f"""
 塔罗牌 {__plugin_version__}
 [占卜] 随机选取牌阵进行占卜
@@ -27,58 +29,61 @@ __plugin_meta__ = PluginMetadata(
     usage=__plugin_usages__,
     type="application",
     homepage="https://github.com/MinatoAquaCrews/nonebot_plugin_tarot",
-    config=PluginConfig,
+    config=TarotConfig,
     extra={
         "author": "KafCoppelia <k740677208@gmail.com>",
         "version": __plugin_version__,
     },
-    supported_adapters={"~onebot.v11"},
+    supported_adapters=inherit_supported_adapters("nonebot_plugin_saa"),
 )
+
+
+def _is_group_event(event: Event) -> bool:
+    return "_" in event.get_session_id()
+
 
 divine = on_command(cmd="占卜", priority=7)
 tarot = on_command(cmd="塔罗牌", priority=7)
 chain_reply_switch = on_regex(
-    pattern=r"^(开启|启用|关闭|禁用)群聊转发(模式)?$", permission=SUPERUSER, priority=7, block=True
+    pattern=r"^(开启|启用|关闭|禁用)群聊转发(模式)?$",
+    rule=Rule(_is_group_event),
+    permission=SUPERUSER,
+    priority=7,
+    block=True,
 )
 
 
 @divine.handle()
-async def general_divine_in_group(
-    bot: Bot, matcher: Matcher, event: GroupMessageEvent
+async def general_divine(
+    bot: Bot,
+    event: Event,
+    target: PlatformTarget = Depends(get_target),
 ) -> None:
     arg = event.get_plaintext()
 
     if "帮助" in arg[-2:]:
-        await matcher.finish(__plugin_usages__)
+        await MessageFactory(__plugin_usages__).finish()
 
-    await tarot_manager.divine_in_group(bot, matcher, event.group_id)
-
-
-@divine.handle()
-async def general_divine_in_private(
-    matcher: Matcher, event: PrivateMessageEvent
-) -> None:
-    arg = event.get_plaintext()
-
-    if "帮助" in arg[-2:]:
-        await matcher.finish(__plugin_usages__)
-
-    await tarot_manager.divine_in_private(matcher)
+    if _is_group_event(event):
+        await tarot_manager.divine_in_group(bot, target, event.group_id)  # type: ignore
+    else:
+        await tarot_manager.divine_in_private()
 
 
 @tarot.handle()
-async def _(matcher: Matcher, event: MessageEvent):
+async def _(event: Event) -> NoReturn:
     arg = event.get_plaintext()
 
     if "帮助" in arg[-2:]:
-        await matcher.finish(__plugin_usages__)
+        await MessageFactory(__plugin_usages__).finish()
 
     msg = await tarot_manager.get_one_tarot()
-    await matcher.finish(msg)
+
+    await MessageFactory(msg).finish(at_sender=True)
 
 
 @chain_reply_switch.handle()
-async def _(event: GroupMessageEvent):
+async def _(event: Event) -> NoReturn:
     arg = event.get_plaintext()
     base = "占卜群聊转发模式已{0}~"
 
@@ -89,4 +94,4 @@ async def _(event: GroupMessageEvent):
         tarot_manager.is_chain_reply = False
         msg = base.format("关闭")
 
-    await chain_reply_switch.finish(msg)
+    await MessageFactory(msg).finish()

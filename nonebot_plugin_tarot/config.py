@@ -1,12 +1,12 @@
 from pathlib import Path
-from typing import List, Optional, Set, Union
+from typing import Sequence, Set, Optional
 
 import httpx
 import nonebot
 import nonebot_plugin_localstore as store
 from aiocache import cached
 from nonebot import logger
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, ConfigDict, Extra
 
 try:
     import ujson as json  # type: ignore
@@ -14,28 +14,34 @@ except ModuleNotFoundError:
     import json
 
 
-class PluginConfig(BaseModel, extra=Extra.ignore):
+class TarotConfig(BaseModel):
+    model_config = ConfigDict(extra=Extra.ignore, validate_assignment=True)
+
     tarot_path: Path = store.get_data_dir("nonebot_plugin_tarot")
-    """Directory of tarot image resources. \
-        Required if the images are deployed locally."""
+    """Directory of tarot image resources. Required when deploying images locally."""
 
     chain_reply: bool = True
-    """Enable the chain reply for avoiding \
-        screen spamming in group chat."""
+    """Enable the chain reply for avoiding screen spamming in group chat."""
+
+    github_proxy: str = "https://ghproxy.com/https://raw.githubusercontent.com/"
 
     nickname: Set[str] = {"Bot"}
     """Bot's nickname."""
 
     tarot_builtin_theme_enabled: bool = True
 
-    tarot_extra_themes: Union[Set[str], List[str]] = []
-    """Extra tarot themes. Both `set` and `list` types are supported."""
+    tarot_extra_themes: Sequence[str] = []
+    """Extra tarot themes."""
 
 
 driver = nonebot.get_driver()
-tarot_config: PluginConfig = PluginConfig.parse_obj(
-    driver.config.dict(exclude_unset=True)
-)
+if hasattr(nonebot, "get_plugin_config"):  # compatible with lower versions
+    from nonebot import get_plugin_config
+    tarot_config: TarotConfig = get_plugin_config(TarotConfig)
+else:
+    tarot_config: TarotConfig = TarotConfig.parse_obj(
+        driver.config.dict(exclude_unset=True)
+    )
 
 
 class DownloadError(Exception):
@@ -50,9 +56,12 @@ class ResourceError(Exception):
         return self.msg
 
 
-async def download_url(name: str) -> Optional[httpx.Response]:
-    url: str = (
-        "https://ghproxy.com/https://raw.githubusercontent.com/"
+async def download_url(name: str, base_proxy: str) -> Optional[httpx.Response]:
+    if not base_proxy.endswith("/") or not base_proxy.endswith("\\"):
+        base_proxy += "/"
+
+    url = (
+        f"{base_proxy}"
         + "MinatoAquaCrews/nonebot_plugin_tarot/master/nonebot_plugin_tarot/"
         + name
     )
@@ -80,7 +89,7 @@ async def tarot_config_check() -> None:
         and len(tarot_config.tarot_extra_themes) == 0
     ):
         raise ResourceError(
-            "No available themes! Please make sure at least 1 theme is enabled.\n"
+            "No available theme! Please make sure at least one theme is enabled.\n"
             "See https://github.com/MinatoAquaCrews/nonebot_plugin_tarot/blob/master/README.md for details."
         )
 
@@ -96,7 +105,7 @@ async def tarot_config_check() -> None:
 
     if not tarot_json_path.exists():
         logger.warning("Missing text resource tarot.json! Trying to download...")
-        response = await download_url("tarot.json")
+        response = await download_url("tarot.json", tarot_config.github_proxy)
 
         if not response:
             raise DownloadError
@@ -116,7 +125,7 @@ async def download_tarot(
     logger.info(f"Downloading image {theme}/{type}/{name} from repo...")
 
     resource = f"resource/{theme}/{type}/{name_with_suffix}"
-    response = await download_url(resource)
+    response = await download_url(resource, tarot_config.github_proxy)
 
     if not response:
         logger.warning(f"Download image {theme}/{type}/{name} failed!")
