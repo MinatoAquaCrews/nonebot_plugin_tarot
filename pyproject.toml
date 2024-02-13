@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot_plugin_tarot"
-version = "v0.5.0a5"
+version = "v0.5.0a6"
 description = "Tarot divination!"
 authors = ["KafCoppelia <k740677208@gmail.com>"]
 license = "MIT"
@@ -13,7 +13,6 @@ exclude = ["nonebot_plugin_tarot/resource"]
 [tool.poetry.dependencies]
 python = "^3.8"
 nonebot2 = "^2.0.0"
-nonebot-adapter-onebot = "^2.2.0"
 pillow = "^9.0.0"
 aiocache = "^0.11.1"
 httpx = "^0.23.0"

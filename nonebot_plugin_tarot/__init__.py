@@ -14,7 +14,7 @@ from nonebot_plugin_saa import MessageFactory, PlatformTarget, get_target
 from .config import TarotConfig
 from .data_source import tarot_manager
 
-__plugin_version__ = "v0.5.0a5"
+__plugin_version__ = "v0.5.0a6"
 __plugin_usages__ = f"""
 塔罗牌 {__plugin_version__}
 [占卜] 随机选取牌阵进行占卜

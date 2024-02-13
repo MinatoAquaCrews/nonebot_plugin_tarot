@@ -77,12 +77,12 @@ class Tarot:
 
         await MessageFactory(f"启用{formation_name}，正在洗牌中").send()
 
-        # Generate messages.
+        # Generate messages
         chain = []
         n = info.n_cards
 
         for i in range(n):
-            # Select the #i tarot.
+            # Select the #i tarot
             if info.is_cut and i == n - 1:
                 msg_header = Text(f"切牌「{info.rep[i]}」\n")
             else:
@@ -98,9 +98,8 @@ class Tarot:
                 chain.append(msg_header + msg_body)
             else:
                 if i < n - 1:
-                    # await matcher.send(msg_header + msg_body)
                     await MessageFactory(msg_header + msg_body).send()
-                    await asyncio.sleep(0.5)  # In case of frequency sending
+                    await asyncio.sleep(0.5)  # In case of sending frequently
                 else:
                     await MessageFactory(msg_header + msg_body).finish()
 
@@ -112,12 +111,11 @@ class Tarot:
         info, formation_name = self._get_divination_info()
 
         await MessageFactory(f"启用{formation_name}，正在洗牌中").send()
-        # await matcher.send(f"启用{formation_name}，正在洗牌中")
 
-        # Generate messages.
+        # Generate messages
         n = info.n_cards
         for i in range(n):
-            # Select the #i tarot.
+            # Select the #i tarot
             if info.is_cut and i == n - 1:
                 msg_header = Text(f"切牌「{info.rep[i]}」\n")
             else:
@@ -131,7 +129,6 @@ class Tarot:
 
             if i < n:
                 await MessageFactory(msg_header + msg_body).send()
-                # await matcher.send(msg_header + msg_body)
             else:
                 await MessageFactory(msg_header + msg_body).finish()
 
