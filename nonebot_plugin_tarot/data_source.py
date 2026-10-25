@@ -53,7 +53,7 @@ def pick_sub_types(theme: str) -> List[str]:
         If it is in official themes, all the sub types are available.
     '''
     all_sub_types: List[str] = ["MajorArcana",
-                                "Cups", "Pentacles", "Sowrds", "Wands"]
+                                "Cups", "Pentacles", "Swords", "Wands"]
 
     if theme == "BilibiliTarot":
         return all_sub_types
